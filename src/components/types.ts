@@ -32,17 +32,6 @@ export interface AlmanacWeather {
   uv: string;
 }
 
-export interface AlmanacApod {
-  title: string;
-  date: string;
-  explanation: string;
-  copyright: string;
-  ra: string;
-  dec: string;
-  distance: string;
-  type: string;
-}
-
 export interface AlmanacFact {
   text: string;
   source: string;
@@ -81,7 +70,6 @@ export interface AlmanacData {
   date: AlmanacDate;
   sun: AlmanacSun;
   weather: AlmanacWeather;
-  apod: AlmanacApod;
   fact: AlmanacFact;
   events: AlmanacEvent[];
   people: {

@@ -32,17 +32,6 @@ export const ALMANAC_DATA: AlmanacData = {
     pressure: "1018 hPa",
     uv: "Moderate · 6",
   },
-  apod: {
-    title: "M104: The Sombrero Galaxy",
-    date: "2026 May 21",
-    explanation:
-      "One of the largest galaxies in the nearby Virgo Cluster, the Sombrero is a striking spiral seen nearly edge-on. A dark, thick dust lane traces the plane of its disk, silhouetted against a luminous central bulge of older yellow stars. The image was assembled from Hubble Space Telescope observations and resolved with infrared data, revealing structure within the dust ring and globular clusters in the halo.",
-    copyright: "NASA · ESA · Hubble Heritage",
-    ra: "12h 39m 59.4s",
-    dec: "−11° 37′ 23″",
-    distance: "31.1 Mly",
-    type: "Spiral · Sa",
-  },
   fact: {
     text: "May 21st is the day in 1927 that Charles Lindbergh lands in Paris after the first solo nonstop flight across the Atlantic Ocean.",
     source: "Numbers API · numbersapi.com",

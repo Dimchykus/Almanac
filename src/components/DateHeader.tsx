@@ -1,21 +1,31 @@
+"use client";
+
+import { format, getDayOfYear, getDaysInYear, parseISO } from "date-fns";
 import { AlmIcon } from "./AlmIcon";
-import type { AlmanacDate, AlmanacSun } from "./types";
+import type { AlmanacSun } from "./types";
+import { useDate, useDateNav } from "./DateContext";
 
 interface DateHeaderProps {
-  date: AlmanacDate;
   sun: AlmanacSun;
   onPickerOpen: () => void;
 }
 
-export function DateHeader({ date, sun, onPickerOpen }: DateHeaderProps) {
+export function DateHeader({ sun, onPickerOpen }: DateHeaderProps) {
+  const iso = useDate();
+  const { prevDay, nextDay, isToday } = useDateNav();
+
+  const date = parseISO(iso);
+  const dayOfYear = getDayOfYear(date);
+  const daysRemaining = getDaysInYear(date) - dayOfYear;
+
   return (
     <section className="px-8 pt-9 pb-6 border-b border-[oklch(0.240_0.018_245)]">
       {/* Eyebrow */}
       <div className="flex items-center gap-3.5 font-mono text-[11px] tracking-[0.14em] uppercase text-alm-ink-mute mb-3.5">
         <span className="w-1.5 h-1.5 rounded-full bg-alm-accent shadow-[0_0_0_4px_oklch(0.76_0.16_60/0.18)]" />
-        <span>Today&apos;s Briefing</span>
+        <span>{isToday ? "Today's Briefing" : "Past Briefing"}</span>
         <span className="text-alm-ink-faint">·</span>
-        <span>Compiled {date.iso} 06:00 UTC</span>
+        <span>Compiled {iso} 06:00 UTC</span>
         <span className="text-alm-ink-faint">·</span>
         <span>5 sources synced</span>
       </div>
@@ -24,36 +34,41 @@ export function DateHeader({ date, sun, onPickerOpen }: DateHeaderProps) {
       <div className="flex items-end justify-between gap-8">
         <h1 className="font-display font-normal text-[clamp(56px,6.5vw,96px)] leading-[0.95] tracking-[-0.01em] text-alm-ink flex items-baseline gap-4">
           <span className="font-mono text-[13px] tracking-[0.16em] text-alm-ink-mute uppercase font-medium self-end pb-3.5">
-            {date.weekdayLong}
+            {format(date, "EEEE")}
           </span>
           <span>
-            {date.month} <em className="italic text-alm-accent">{date.day}</em>,&nbsp;{date.year}
+            {format(date, "MMMM")} <em className="italic text-alm-accent">{format(date, "d")}</em>,&nbsp;{format(date, "yyyy")}
           </span>
         </h1>
 
         <div className="flex items-center gap-1.5">
-          <button className="w-9 h-9 inline-flex items-center justify-center bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer">
+          <button
+            onClick={prevDay}
+            className="w-9 h-9 inline-flex items-center justify-center bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors"
+          >
             <AlmIcon name="arrow-l" />
           </button>
           <button
             onClick={onPickerOpen}
-            className="h-9 px-3.5 inline-flex items-center gap-2 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-dim cursor-pointer"
+            className="h-9 px-3.5 inline-flex items-center gap-2 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors"
           >
             <AlmIcon name="cal" size={14} /> Jump to date
           </button>
-          <button className="w-9 h-9 inline-flex items-center justify-content-center bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer justify-center">
+          <button
+            onClick={nextDay}
+            disabled={isToday}
+            className="w-9 h-9 inline-flex items-center justify-center bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
             <AlmIcon name="arrow-r" />
           </button>
         </div>
       </div>
 
       {/* Telemetry strip */}
-      <div
-        className="mt-6 grid grid-cols-6 gap-px bg-[oklch(0.240_0.018_245)] border-t border-b border-[oklch(0.240_0.018_245)]"
-      >
+      <div className="mt-6 grid grid-cols-6 gap-px bg-[oklch(0.240_0.018_245)] border-t border-b border-[oklch(0.240_0.018_245)]">
         {[
-          { k: "Day", v: date.dayOfYear, small: "/365" },
-          { k: "Remaining", v: date.daysRemaining, small: "days" },
+          { k: "Day", v: dayOfYear, small: `/${getDaysInYear(date)}` },
+          { k: "Remaining", v: daysRemaining, small: "days" },
           { k: "Sunrise", v: sun.rise },
           { k: "Sunset", v: sun.set },
           { k: "Daylight", v: sun.length },

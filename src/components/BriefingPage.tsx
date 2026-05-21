@@ -35,19 +35,15 @@ export function BriefingPage() {
         />
 
         <DateHeader
-          date={d.date}
           sun={d.sun}
           onPickerOpen={() => setPickerOpen(true)}
         />
 
-        {/* Main grid: APOD (left, 2fr) | right column (1fr) */}
         <main className="px-8 py-7 grid grid-cols-[2fr_1fr] gap-5">
-          {/* Left: APOD */}
           <div>
-            <ApodCard apod={d.apod} />
+            <ApodCard />
           </div>
 
-          {/* Right: Fact, Weather, Sun */}
           <div className="flex flex-col gap-5">
             <FactCard date={d.date} fact={d.fact} />
             <WeatherCard weather={d.weather} />
@@ -74,11 +70,16 @@ export function BriefingPage() {
         <footer className="px-8 py-7 pb-9 border-t border-[oklch(0.240_0.018_245)] flex justify-between items-center font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mt-auto">
           <div>Almanac · Observatory build · v0.4.1</div>
           <div className="flex gap-[18px]">
-            {["NASA APOD", "Wikipedia", "Open-Meteo", "Numbers API"].map((src) => (
-              <span key={src} className="text-alm-ink-mute before:content-['●'] before:mr-1.5 before:text-alm-positive">
-                {src}
-              </span>
-            ))}
+            {["NASA APOD", "Wikipedia", "Open-Meteo", "Numbers API"].map(
+              (src) => (
+                <span
+                  key={src}
+                  className="text-alm-ink-mute before:content-['●'] before:mr-1.5 before:text-alm-positive"
+                >
+                  {src}
+                </span>
+              ),
+            )}
           </div>
         </footer>
       </div>
@@ -90,9 +91,7 @@ export function BriefingPage() {
           onClose={() => setBookmarksOpen(false)}
         />
       )}
-      {pickerOpen && (
-        <DatePickerModal onClose={() => setPickerOpen(false)} />
-      )}
+      {pickerOpen && <DatePickerModal onClose={() => setPickerOpen(false)} />}
     </div>
   );
 }
