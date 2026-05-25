@@ -1,11 +1,35 @@
-import { AlmIcon } from "./AlmIcon";
-import type { AlmanacWeather } from "./types";
+"use client";
 
-interface WeatherCardProps {
-  weather: AlmanacWeather;
+import { useQuery } from "@tanstack/react-query";
+import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
+import type { GeoIpResult } from "@/app/api/geoip/route";
+import { useDate } from "./DateContext";
+import { AlmIcon } from "./AlmIcon";
+
+async function fetchGeoIp(): Promise<GeoIpResult> {
+  const res = await fetch("/api/geoip");
+  if (!res.ok) throw new Error("geoip failed");
+  return res.json();
 }
 
-export function WeatherCard({ weather }: WeatherCardProps) {
+export function WeatherCard() {
+  const date = useDate();
+
+  const { data: geo } = useQuery({
+    queryKey: ["geoip"],
+    queryFn: fetchGeoIp,
+  });
+
+  const location = geo ? `${geo.city}, ${geo.countryCode}` : "";
+
+  const { data: weather } = useQuery({
+    queryKey: weatherQueryKey(date, geo?.lat ?? 0, geo?.lon ?? 0),
+    queryFn: () => fetchWeatherClient(date, geo!.lat, geo!.lon, location),
+    enabled: !!geo && !!date,
+  });
+
+  if (!weather) return null;
+
   const rows = [
     { k: "High", v: `${weather.hi}°` },
     { k: "Low", v: `${weather.lo}°` },
@@ -39,8 +63,13 @@ export function WeatherCard({ weather }: WeatherCardProps) {
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2 gap-x-3.5 pt-3.5 border-t border-[oklch(0.240_0.018_245)]">
           {rows.map(({ k, v }) => (
-            <div key={k} className="flex justify-between font-mono text-[11px] text-alm-ink-dim">
-              <span className="text-alm-ink-faint tracking-[0.06em] uppercase">{k}</span>
+            <div
+              key={k}
+              className="flex justify-between font-mono text-[11px] text-alm-ink-dim"
+            >
+              <span className="text-alm-ink-faint tracking-[0.06em] uppercase">
+                {k}
+              </span>
               <span>{v}</span>
             </div>
           ))}

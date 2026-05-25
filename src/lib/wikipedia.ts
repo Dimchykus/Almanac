@@ -55,8 +55,6 @@ export async function fetchOnThisDayServer(date: string): Promise<WikiOnThisDayD
   if (!res.ok) throw new Error(`Wikipedia fetch failed: ${res.status}`);
   const raw: WikiRawResponse = await res.json();
 
-  console.log(raw);
-
   return {
     events: raw.events.slice(0, 10).map((e) => toEvent(e, selectedYear)),
     born: raw.births.slice(0, 3).map(toPerson),

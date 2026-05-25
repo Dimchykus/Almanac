@@ -46,7 +46,7 @@ export function BriefingPage() {
 
           <div className="flex flex-col gap-5">
             <FactCard date={d.date} fact={d.fact} />
-            <WeatherCard weather={d.weather} />
+            <WeatherCard />
             <SunMoonCard sun={d.sun} />
           </div>
         </main>
