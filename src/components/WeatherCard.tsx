@@ -2,21 +2,15 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
-import type { GeoIpResult } from "@/app/api/geoip/route";
+import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
 import { useDate } from "./DateContext";
 import { AlmIcon } from "./AlmIcon";
-
-async function fetchGeoIp(): Promise<GeoIpResult> {
-  const res = await fetch("/api/geoip");
-  if (!res.ok) throw new Error("geoip failed");
-  return res.json();
-}
 
 export function WeatherCard() {
   const date = useDate();
 
   const { data: geo } = useQuery({
-    queryKey: ["geoip"],
+    queryKey: geoipQueryKey,
     queryFn: fetchGeoIp,
   });
 

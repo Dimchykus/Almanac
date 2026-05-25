@@ -35,7 +35,6 @@ export function BriefingPage() {
         />
 
         <DateHeader
-          sun={d.sun}
           onPickerOpen={() => setPickerOpen(true)}
         />
 
@@ -47,7 +46,7 @@ export function BriefingPage() {
           <div className="flex flex-col gap-5">
             <FactCard date={d.date} fact={d.fact} />
             <WeatherCard />
-            <SunMoonCard sun={d.sun} />
+            <SunMoonCard />
           </div>
         </main>
 

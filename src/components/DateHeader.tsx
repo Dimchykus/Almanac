@@ -1,18 +1,26 @@
 "use client";
 
 import { format, getDayOfYear, getDaysInYear, parseISO } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
 import { AlmIcon } from "./AlmIcon";
-import type { AlmanacSun } from "./types";
+import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
+import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
 import { useDate, useDateNav } from "./DateContext";
 
 interface DateHeaderProps {
-  sun: AlmanacSun;
   onPickerOpen: () => void;
 }
 
-export function DateHeader({ sun, onPickerOpen }: DateHeaderProps) {
+export function DateHeader({ onPickerOpen }: DateHeaderProps) {
   const iso = useDate();
   const { prevDay, nextDay, isToday } = useDateNav();
+
+  const { data: geo } = useQuery({ queryKey: geoipQueryKey, queryFn: fetchGeoIp });
+  const { data: sun } = useQuery({
+    queryKey: sunQueryKey(iso, geo?.lat ?? 0, geo?.lon ?? 0),
+    queryFn: () => fetchSunClient(iso, geo!.lat, geo!.lon),
+    enabled: !!geo && !!iso,
+  });
 
   const date = parseISO(iso);
   const dayOfYear = getDayOfYear(date);
@@ -69,10 +77,10 @@ export function DateHeader({ sun, onPickerOpen }: DateHeaderProps) {
         {[
           { k: "Day", v: dayOfYear, small: `/${getDaysInYear(date)}` },
           { k: "Remaining", v: daysRemaining, small: "days" },
-          { k: "Sunrise", v: sun.rise },
-          { k: "Sunset", v: sun.set },
-          { k: "Daylight", v: sun.length },
-          { k: "Moon", v: `${sun.moonPct}%`, small: sun.moon },
+          { k: "Sunrise", v: sun?.rise ?? "—" },
+          { k: "Sunset", v: sun?.set ?? "—" },
+          { k: "Daylight", v: sun?.length ?? "—" },
+          { k: "Solar Noon", v: sun?.noon ?? "—" },
         ].map(({ k, v, small }) => (
           <div key={k} className="bg-alm-bg px-4 py-3.5">
             <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mb-1.5">

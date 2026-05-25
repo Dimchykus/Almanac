@@ -15,8 +15,7 @@ export interface AlmanacSun {
   rise: string;
   set: string;
   length: string;
-  moon: string;
-  moonPct: number;
+  noon: string;
 }
 
 export interface AlmanacWeather {
