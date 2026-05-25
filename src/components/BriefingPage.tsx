@@ -53,12 +53,12 @@ export function BriefingPage() {
 
         {/* On This Day — full width */}
         <section className="px-8 pb-12">
-          <EventsCard events={d.events} />
+          <EventsCard />
         </section>
 
         {/* Births & Deaths — full width */}
         <section className="px-8 pb-12">
-          <PeopleCard born={d.people.born} died={d.people.died} />
+          <PeopleCard />
         </section>
 
         {/* Featured entity — full width */}
@@ -86,10 +86,7 @@ export function BriefingPage() {
 
       {/* Overlays */}
       {bookmarksOpen && (
-        <BookmarksPanel
-          bookmarks={d.bookmarks}
-          onClose={() => setBookmarksOpen(false)}
-        />
+        <BookmarksPanel onClose={() => setBookmarksOpen(false)} />
       )}
       {pickerOpen && <DatePickerModal onClose={() => setPickerOpen(false)} />}
     </div>

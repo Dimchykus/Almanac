@@ -41,8 +41,6 @@ export interface AlmanacEvent {
   y: string;
   body: string;
   ago: string;
-  saved?: boolean;
-  featured?: boolean;
 }
 
 export interface AlmanacPerson {
@@ -63,7 +61,6 @@ export interface AlmanacBookmark {
   type: string;
   title: string;
   date: string;
-  swatch: string;
 }
 
 export interface AlmanacData {
@@ -71,11 +68,6 @@ export interface AlmanacData {
   sun: AlmanacSun;
   weather: AlmanacWeather;
   fact: AlmanacFact;
-  events: AlmanacEvent[];
-  people: {
-    born: AlmanacPerson[];
-    died: AlmanacPerson[];
-  };
   featured: AlmanacFeatured;
   bookmarks: AlmanacBookmark[];
 }

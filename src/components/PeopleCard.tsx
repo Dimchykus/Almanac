@@ -1,15 +1,22 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { useDate } from "./DateContext";
+import { onThisDayQueryKey, fetchOnThisDayClient } from "@/src/lib/wikipedia";
 import type { AlmanacPerson } from "./types";
 
-interface PeopleCardProps {
-  born: AlmanacPerson[];
-  died: AlmanacPerson[];
-}
-
-function PersonTile({ person, label }: { person: AlmanacPerson; label: string }) {
-  const age = 2026 - parseInt(person.year);
+function PersonTile({
+  person,
+  label,
+  selectedYear,
+}: {
+  person: AlmanacPerson;
+  label: string;
+  selectedYear: number;
+}) {
+  const age = selectedYear - parseInt(person.year);
   return (
     <div className="bg-alm-surface p-[18px] flex gap-3.5">
-      {/* Avatar */}
       <div
         className="w-14 h-14 rounded-full flex-shrink-0 border border-[oklch(0.295_0.020_245)] overflow-hidden relative"
         style={{
@@ -31,7 +38,18 @@ function PersonTile({ person, label }: { person: AlmanacPerson; label: string })
   );
 }
 
-export function PeopleCard({ born, died }: PeopleCardProps) {
+export function PeopleCard() {
+  const date = useDate();
+  const selectedYear = parseInt(date.slice(0, 4));
+
+  const { data } = useQuery({
+    queryKey: onThisDayQueryKey(date),
+    queryFn: () => fetchOnThisDayClient(date),
+    enabled: !!date,
+  });
+
+  const born = data?.born ?? [];
+  const died = data?.died ?? [];
   const all = [
     ...born.map((p) => ({ person: p, label: "Born" })),
     ...died.map((p) => ({ person: p, label: "Died" })),
@@ -47,14 +65,20 @@ export function PeopleCard({ born, died }: PeopleCardProps) {
           Wikipedia · On This Day
         </div>
       </div>
-      <div
-        className="grid gap-px bg-[oklch(0.240_0.018_245)]"
-        style={{ gridTemplateColumns: `repeat(${Math.min(all.length, 3)}, 1fr)` }}
-      >
-        {all.map(({ person, label }, i) => (
-          <PersonTile key={i} person={person} label={label} />
-        ))}
-      </div>
+      {all.length > 0 ? (
+        <div
+          className="grid gap-px bg-[oklch(0.240_0.018_245)]"
+          style={{ gridTemplateColumns: `repeat(${Math.min(all.length, 3)}, 1fr)` }}
+        >
+          {all.map(({ person, label }, i) => (
+            <PersonTile key={i} person={person} label={label} selectedYear={selectedYear} />
+          ))}
+        </div>
+      ) : (
+        <div className="px-5 py-8 text-center font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-faint">
+          Loading…
+        </div>
+      )}
     </article>
   );
 }
