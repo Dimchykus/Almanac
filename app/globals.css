@@ -200,24 +200,6 @@
   margin: 10px 0 14px;
   border-bottom: 1px dashed oklch(0.295 0.020 245);
 }
-.alm-sun-arc::before {
-  content: "";
-  position: absolute;
-  left: 8%; right: 8%; top: 0; bottom: 0;
-  border: 1px solid oklch(0.760 0.160 60);
-  border-bottom: none;
-  border-radius: 200px 200px 0 0;
-  opacity: 0.4;
-}
-.alm-sun-arc::after {
-  content: "";
-  position: absolute;
-  left: 64%; top: -4px;
-  width: 10px; height: 10px;
-  background: oklch(0.760 0.160 60);
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px oklch(0.76 0.16 60 / 0.25);
-}
 
 /* Featured entity drop-cap */
 .alm-dropcap::first-letter {

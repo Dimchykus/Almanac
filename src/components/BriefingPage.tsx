@@ -34,9 +34,7 @@ export function BriefingPage() {
           onToggleBookmarks={() => setBookmarksOpen((v) => !v)}
         />
 
-        <DateHeader
-          onPickerOpen={() => setPickerOpen(true)}
-        />
+        <DateHeader onPickerOpen={() => setPickerOpen(true)} />
 
         <main className="px-8 py-7 grid grid-cols-[2fr_1fr] gap-5">
           <div>
