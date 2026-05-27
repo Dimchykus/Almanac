@@ -1,4 +1,4 @@
-import { AlmIcon } from "./AlmIcon";
+import { AlmIcon } from "../alm-icon";
 
 export function EntityDetail() {
   return (

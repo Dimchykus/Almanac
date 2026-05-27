@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { TopBar } from "./TopBar";
-import { DateHeader } from "./DateHeader";
-import { ApodCard } from "./ApodCard";
-import { FactCard } from "./FactCard";
-import { WeatherCard } from "./WeatherCard";
-import { SunMoonCard } from "./SunMoonCard";
-import { EventsCard } from "./EventsCard";
-import { PeopleCard } from "./PeopleCard";
-import { BookmarksPanel } from "./BookmarksPanel";
-import { DatePickerModal } from "./DatePickerModal";
-import { ALMANAC_DATA } from "./data";
+import { TopBar } from "../../components/top-bar";
+import { DateHeader } from "../../components/date-header";
+import { ApodCard } from "../../components/apod-card";
+import { FactCard } from "../../components/fact-card";
+import { WeatherCard } from "../../components/weather-card";
+import { SunMoonCard } from "../../components/sun-moon-card";
+import { EventsCard } from "../../components/events-card";
+import { PeopleCard } from "../../components/people-card";
+import { BookmarksPanel } from "../../components/bookmarks-panel";
+import { DatePickerModal } from "../../components/date-picker-modal";
+import { ALMANAC_DATA } from "../../components/data";
 
 export function BriefingPage() {
   const [bookmarksOpen, setBookmarksOpen] = useState(false);

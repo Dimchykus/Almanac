@@ -3,8 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
 import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
-import { useDate } from "./DateContext";
-import { AlmIcon } from "./AlmIcon";
+import { useDate } from "../date-context";
+import { AlmIcon } from "../alm-icon";
 
 export function WeatherCard() {
   const date = useDate();

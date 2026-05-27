@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlmIcon } from "./AlmIcon";
+import { AlmIcon } from "../alm-icon";
 
 const DOWS = ["S", "M", "T", "W", "T", "F", "S"];
 const LEADING = [27, 28, 29, 30]; // April, dimmed

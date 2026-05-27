@@ -1,4 +1,4 @@
-import type { AlmanacData } from "./types";
+import type { AlmanacData } from "../types";
 
 export const ALMANAC_DATA: AlmanacData = {
   date: {
@@ -17,8 +17,7 @@ export const ALMANAC_DATA: AlmanacData = {
     rise: "05:53",
     set: "20:23",
     length: "14h 30m",
-    moon: "Waxing Crescent",
-    moonPct: 21,
+    noon: "",
   },
   weather: {
     location: "San Francisco, CA",

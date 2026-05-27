@@ -2,10 +2,10 @@
 
 import { format, getDayOfYear, getDaysInYear, parseISO } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
-import { AlmIcon } from "./AlmIcon";
+import { AlmIcon } from "../alm-icon";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
-import { useDate, useDateNav } from "./DateContext";
+import { useDate, useDateNav } from "../date-context";
 
 interface DateHeaderProps {
   onPickerOpen: () => void;

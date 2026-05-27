@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import { AlmIcon } from "./AlmIcon";
-import { useDate } from "./DateContext";
-import { useBookmarks } from "./BookmarksContext";
+import { AlmIcon } from "../alm-icon";
+import { useDate } from "../date-context";
+import { useBookmarks } from "../bookmarks-context";
 import { onThisDayQueryKey, fetchOnThisDayClient } from "@/src/lib/wikipedia";
-import type { AlmanacEvent } from "./types";
+import type { AlmanacEvent } from "../types";
 
 export function EventsCard() {
   const date = useDate();

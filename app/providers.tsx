@@ -2,8 +2,8 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
-import { DateProvider } from '@/src/components/DateContext'
-import { BookmarksProvider } from '@/src/components/BookmarksContext'
+import { DateProvider } from '@/src/components/date-context'
+import { BookmarksProvider } from '@/src/components/bookmarks-context'
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient())

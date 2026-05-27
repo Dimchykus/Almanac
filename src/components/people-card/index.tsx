@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { useDate } from "./DateContext";
+import { useDate } from "../date-context";
 import { onThisDayQueryKey, fetchOnThisDayClient } from "@/src/lib/wikipedia";
 import {
   wikiSummaryQueryKey,
   fetchWikiSummaryClient,
 } from "@/src/lib/wikiSummary";
-import type { AlmanacPerson } from "./types";
+import type { AlmanacPerson } from "../types";
 
 function PersonTile({
   person,

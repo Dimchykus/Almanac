@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
-import { useDate, useDateNav } from "./DateContext";
+import { useDate, useDateNav } from "../date-context";
 
 function toMinutes(t: string): number {
   const [h, m] = t.split(":").map(Number);

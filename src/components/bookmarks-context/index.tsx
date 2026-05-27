@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import type { AlmanacBookmark } from "./types";
+import type { AlmanacBookmark } from "../types";
 
 interface BookmarksContextValue {
   bookmarks: AlmanacBookmark[];

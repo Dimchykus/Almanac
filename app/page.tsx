@@ -1,5 +1,9 @@
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { BriefingPage } from "@/src/components/BriefingPage";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { BriefingPage } from "@/src/views/briefing-container";
 import { apodQueryKey, fetchApodServer } from "@/src/lib/apod";
 import { onThisDayQueryKey, fetchOnThisDayServer } from "@/src/lib/wikipedia";
 

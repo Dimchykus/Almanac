@@ -1,7 +1,7 @@
 "use client";
 
-import { AlmIcon } from "./AlmIcon";
-import { useBookmarks } from "./BookmarksContext";
+import { AlmIcon } from "../alm-icon";
+import { useBookmarks } from "../bookmarks-context";
 
 const TABS = ["All", "History", "Sky", "People", "Facts"];
 

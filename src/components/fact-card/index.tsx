@@ -1,4 +1,4 @@
-import type { AlmanacDate, AlmanacFact } from "./types";
+import type { AlmanacDate, AlmanacFact } from "../types";
 
 interface FactCardProps {
   date: AlmanacDate;
