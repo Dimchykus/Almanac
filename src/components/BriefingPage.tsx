@@ -9,7 +9,6 @@ import { WeatherCard } from "./WeatherCard";
 import { SunMoonCard } from "./SunMoonCard";
 import { EventsCard } from "./EventsCard";
 import { PeopleCard } from "./PeopleCard";
-import { FeaturedCard } from "./FeaturedCard";
 import { BookmarksPanel } from "./BookmarksPanel";
 import { DatePickerModal } from "./DatePickerModal";
 import { ALMANAC_DATA } from "./data";
@@ -56,11 +55,6 @@ export function BriefingPage() {
         {/* Births & Deaths — full width */}
         <section className="px-8 pb-12">
           <PeopleCard />
-        </section>
-
-        {/* Featured entity — full width */}
-        <section className="px-8 pb-12">
-          <FeaturedCard featured={d.featured} />
         </section>
 
         {/* Footer */}
