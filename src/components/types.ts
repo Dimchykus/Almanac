@@ -40,12 +40,22 @@ export interface AlmanacEvent {
   y: string;
   body: string;
   ago: string;
+  wikiTitle?: string;
 }
 
 export interface AlmanacPerson {
   name: string;
   year: string;
   role: string;
+  wikiTitle?: string;
+}
+
+export interface WikiSummary {
+  title: string;
+  description: string;
+  extract: string;
+  thumbnail?: { source: string; width: number; height: number };
+  contentUrl: string;
 }
 
 export interface AlmanacFeatured {

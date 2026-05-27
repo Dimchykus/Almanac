@@ -2,6 +2,7 @@ import type { AlmanacEvent, AlmanacPerson } from "@/src/components/types";
 
 interface WikiPage {
   title: string;
+  thumbnail?: { source: string; width: number; height: number };
 }
 
 interface WikiEntry {
@@ -30,6 +31,7 @@ function toEvent(entry: WikiEntry, selectedYear: number): AlmanacEvent {
     y: String(entry.year),
     body: entry.text,
     ago: `${selectedYear - entry.year} yrs`,
+    wikiTitle: entry.pages[0]?.title,
   };
 }
 
@@ -39,6 +41,7 @@ function toPerson(entry: WikiEntry): AlmanacPerson {
     name: comma > 0 ? entry.text.slice(0, comma).trim() : entry.text,
     year: String(entry.year),
     role: comma > 0 ? entry.text.slice(comma + 1).trim() : "",
+    wikiTitle: entry.pages[0]?.title,
   };
 }
 
