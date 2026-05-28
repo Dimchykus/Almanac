@@ -16,10 +16,6 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks }: TopBarProps) {
       {/* Wordmark */}
       <div className="font-display text-[22px] tracking-[0.12em] text-alm-ink flex items-center">
         ALMANAC
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-alm-accent mx-2 mb-0.5 align-middle" />
-        <span className="font-mono text-[11px] tracking-[0.18em] text-alm-ink-mute">
-          OBS · 037
-        </span>
       </div>
 
       <div className="flex-1" />
