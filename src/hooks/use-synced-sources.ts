@@ -7,7 +7,7 @@ import { openAiQueryKey, fetchOpenAiClient } from "@/src/lib/open-ai";
 import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { useGeo } from "@/src/hooks/use-geo";
-import { useDate } from "@/src/components/date-context";
+import { useDate } from "@/src/contexts/date-context";
 
 export interface SourceStatus {
   name: string;

@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { apodQueryKey, fetchApodClient } from "@/src/lib/apod";
-import { useDate } from "../date-context";
+import { useDate } from "@/src/contexts/date-context";
 
 export function ApodCard() {
   const date = useDate();

@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
 import { useGeo } from "@/src/hooks/use-geo";
-import { useDate } from "../date-context";
+import { useDate } from "@/src/contexts/date-context";
 import { AlmIcon } from "../alm-icon";
 
 export function WeatherCard() {

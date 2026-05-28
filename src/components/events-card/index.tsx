@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
 import { AlmIcon } from "../alm-icon";
-import { useDate } from "../date-context";
+import { useDate } from "@/src/contexts/date-context";
 import { useBookmarks } from "../bookmarks-context";
 import { onThisDayQueryKey, fetchOnThisDayClient } from "@/src/lib/wikipedia";
 import type { AlmanacEvent } from "../types";

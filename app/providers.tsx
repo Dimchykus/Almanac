@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
-import { DateProvider } from '@/src/components/date-context'
+import { DateProvider } from '@/src/contexts/date-context'
 import { BookmarksProvider } from '@/src/components/bookmarks-context'
 
 export default function Providers({ children }: { children: React.ReactNode }) {

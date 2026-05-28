@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { useDate } from "../date-context";
+import { useDate } from "@/src/contexts/date-context";
 import { onThisDayQueryKey, fetchOnThisDayClient } from "@/src/lib/wikipedia";
 import {
   wikiSummaryQueryKey,

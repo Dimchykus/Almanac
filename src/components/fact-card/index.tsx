@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { openAiQueryKey, fetchOpenAiClient } from "@/src/lib/open-ai";
-import { useDate } from "../date-context";
+import { useDate } from "@/src/contexts/date-context";
 
 export function FactCard() {
   const date = useDate();

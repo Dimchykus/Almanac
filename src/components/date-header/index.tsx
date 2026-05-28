@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AlmIcon } from "../alm-icon";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { useGeo } from "@/src/hooks/use-geo";
-import { useDate, useDateNav } from "../date-context";
+import { useDate, useDateNav } from "@/src/contexts/date-context";
 import { useSyncedSources } from "@/src/hooks/use-synced-sources";
 
 interface DateHeaderProps {
