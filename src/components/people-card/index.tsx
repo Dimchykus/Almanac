@@ -64,15 +64,15 @@ function PersonTile({
       </div>
 
       <div className="flex-1 min-w-0">
-        <div className="font-display text-[18px] leading-[1.15] text-alm-ink">
+        <h3 className="font-display text-[18px] leading-[1.15] text-alm-ink m-0">
           {person.name}
-        </div>
+        </h3>
         <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-alm-ink-faint my-1">
           {label} {person.year} · {age} yrs
         </div>
-        <div className="text-xs text-alm-ink-dim leading-[1.5] line-clamp-2">
+        <p className="text-xs text-alm-ink-dim leading-[1.5] line-clamp-2 m-0">
           {description}
-        </div>
+        </p>
       </div>
     </a>
   );

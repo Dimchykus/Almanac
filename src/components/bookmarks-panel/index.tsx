@@ -24,10 +24,10 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
             <h3 className="font-display text-[28px] font-normal text-alm-ink m-0">
               Saved
             </h3>
-            <div className="font-mono text-[11px] text-alm-ink-mute tracking-[0.1em] uppercase mt-1.5">
+            <p className="font-mono text-[11px] text-alm-ink-mute tracking-[0.1em] uppercase mt-1.5 m-0">
               {bookmarks.length}{" "}
               {bookmarks.length === 1 ? "discovery" : "discoveries"}
-            </div>
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -62,12 +62,12 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
             className="px-6 py-[18px] border-b border-[oklch(0.240_0.018_245)] flex gap-3.5"
           >
             <div className="flex-1 min-w-0">
-              <div className="font-display text-[17px] leading-[1.2] text-alm-ink mb-1">
+              <p className="font-display text-[17px] leading-[1.2] text-alm-ink mb-1 m-0">
                 {b.title}
-              </div>
-              <div className="font-mono text-[10px] text-alm-ink-faint tracking-[0.08em]">
+              </p>
+              <p className="font-mono text-[10px] text-alm-ink-faint tracking-[0.08em] m-0 mt-1">
                 {b.date}
-              </div>
+              </p>
             </div>
 
             <div className="text-alm-accent self-start pt-1">

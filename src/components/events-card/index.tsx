@@ -71,12 +71,12 @@ export function EventsCard() {
               <div className="font-display text-[22px] sm:text-[28px] text-alm-accent italic tabular-nums">
                 {e.y}
               </div>
-              <div className="text-sm leading-[1.55] text-alm-ink">
+              <p className="text-sm leading-[1.55] text-alm-ink m-0">
                 {e.body}
                 <span className="font-mono text-[10px] text-alm-ink-faint tracking-[0.1em] uppercase ml-2">
                   {e.ago} ago
                 </span>
-              </div>
+              </p>
               <button
                 onClick={() => toggleSaved(e)}
                 className={`w-6 h-6 inline-flex items-center justify-center rounded cursor-pointer transition-colors ${

@@ -46,9 +46,9 @@ export function WeatherCard() {
           {weather.now}
           <sup className="text-[18px] sm:text-[20px] mt-1.5 text-alm-ink-mute">°C</sup>
         </div>
-        <div className="font-display italic text-[18px] text-alm-ink-dim mt-1">
+        <p className="font-display italic text-[18px] text-alm-ink-dim mt-1 m-0">
           {weather.desc}
-        </div>
+        </p>
         <div className="mt-4 grid grid-cols-2 gap-2 gap-x-3.5 pt-3.5 border-t border-[oklch(0.240_0.018_245)]">
           {rows.map(({ k, v }) => (
             <div

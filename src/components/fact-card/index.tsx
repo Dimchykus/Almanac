@@ -31,9 +31,9 @@ export function FactCard() {
         <div className="font-display text-[52px] sm:text-[64px] leading-none text-alm-accent italic">
           {parseInt(day)}
         </div>
-        <div className="font-display text-[18px] sm:text-[20px] leading-[1.3] text-alm-ink">
+        <p className="font-display text-[18px] sm:text-[20px] leading-[1.3] text-alm-ink m-0">
           {fact.text}
-        </div>
+        </p>
       </div>
     </article>
   );
