@@ -62,13 +62,13 @@ export async function fetchWeatherClient(
   return res.json();
 }
 
-function formatCoord(lat: number, lon: number): string {
+export function formatCoord(lat: number, lon: number): string {
   const latStr = `${Math.abs(lat).toFixed(2)}°${lat >= 0 ? "N" : "S"}`;
   const lonStr = `${Math.abs(lon).toFixed(2)}°${lon >= 0 ? "E" : "W"}`;
   return `${latStr} · ${lonStr}`;
 }
 
-function degreesToCompass(deg: number): string {
+export function degreesToCompass(deg: number): string {
   const dirs = [
     "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
     "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW",
@@ -93,7 +93,7 @@ const WEATHER_CODE_DESC: Record<number, string> = {
   96: "Thunderstorm w/ hail", 99: "Thunderstorm w/ hail",
 };
 
-function weatherCodeToDesc(code: number): string {
+export function weatherCodeToDesc(code: number): string {
   return WEATHER_CODE_DESC[code] ?? "Variable";
 }
 
@@ -105,7 +105,7 @@ const UV_LABELS: [number, string][] = [
   [Infinity, "Extreme"],
 ];
 
-function uvToLabel(uv: number): string {
+export function uvToLabel(uv: number): string {
   return UV_LABELS.find(([max]) => uv <= max)![1];
 }
 

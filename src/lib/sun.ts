@@ -52,11 +52,11 @@ export async function fetchSunClient(
   return res.json();
 }
 
-function parseTimeFromISO(isoStr: string): string {
+export function parseTimeFromISO(isoStr: string): string {
   return isoStr.split("T")[1] ?? "—";
 }
 
-function computeDaylight(rise: string, set: string): string {
+export function computeDaylight(rise: string, set: string): string {
   const [rh, rm] = rise.split(":").map(Number);
   const [sh, sm] = set.split(":").map(Number);
   const diff = sh * 60 + sm - (rh * 60 + rm);
@@ -66,7 +66,7 @@ function computeDaylight(rise: string, set: string): string {
   return `${h}h ${m.toString().padStart(2, "0")}m`;
 }
 
-function computeNoon(rise: string, set: string): string {
+export function computeNoon(rise: string, set: string): string {
   const [rh, rm] = rise.split(":").map(Number);
   const [sh, sm] = set.split(":").map(Number);
   const midMin = Math.round((rh * 60 + rm + sh * 60 + sm) / 2);

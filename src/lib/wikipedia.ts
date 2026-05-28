@@ -26,7 +26,7 @@ export interface WikiOnThisDayData {
 
 export const onThisDayQueryKey = (date: string) => ["onthisday", date] as const;
 
-function toEvent(entry: WikiEntry, selectedYear: number): AlmanacEvent {
+export function toEvent(entry: WikiEntry, selectedYear: number): AlmanacEvent {
   return {
     y: String(entry.year),
     body: entry.text,
@@ -35,7 +35,7 @@ function toEvent(entry: WikiEntry, selectedYear: number): AlmanacEvent {
   };
 }
 
-function toPerson(entry: WikiEntry): AlmanacPerson {
+export function toPerson(entry: WikiEntry): AlmanacPerson {
   const comma = entry.text.indexOf(",");
   return {
     name: comma > 0 ? entry.text.slice(0, comma).trim() : entry.text,
