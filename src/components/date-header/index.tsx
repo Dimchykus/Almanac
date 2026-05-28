@@ -6,6 +6,7 @@ import { AlmIcon } from "../alm-icon";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
 import { useDate, useDateNav } from "../date-context";
+import { useSyncedSources } from "@/src/hooks/use-synced-sources";
 
 interface DateHeaderProps {
   onPickerOpen: () => void;
@@ -22,6 +23,8 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
     enabled: !!geo && !!iso,
   });
 
+  const { syncedCount, total } = useSyncedSources();
+
   const date = parseISO(iso);
   const dayOfYear = getDayOfYear(date);
   const daysRemaining = getDaysInYear(date) - dayOfYear;
@@ -35,7 +38,7 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
         <span className="text-alm-ink-faint">·</span>
         <span>Compiled {iso} 06:00 UTC</span>
         <span className="text-alm-ink-faint">·</span>
-        <span>5 sources synced</span>
+        <span>{syncedCount} of {total} sources synced</span>
       </div>
 
       {/* Date line */}
@@ -45,7 +48,9 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
             {format(date, "EEEE")}
           </span>
           <span>
-            {format(date, "MMMM")} <em className="italic text-alm-accent">{format(date, "d")}</em>,&nbsp;{format(date, "yyyy")}
+            {format(date, "MMMM")}{" "}
+            <em className="italic text-alm-accent">{format(date, "d")}</em>
+            ,&nbsp;{format(date, "yyyy")}
           </span>
         </h1>
 
@@ -89,7 +94,9 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
             <div className="font-mono text-[15px] text-alm-ink tracking-[0.02em]">
               {v}
               {small && (
-                <small className="text-[11px] text-alm-ink-mute ml-1">{small}</small>
+                <small className="text-[11px] text-alm-ink-mute ml-1">
+                  {small}
+                </small>
               )}
             </div>
           </div>

@@ -11,20 +11,19 @@ import { EventsCard } from "../../components/events-card";
 import { PeopleCard } from "../../components/people-card";
 import { BookmarksPanel } from "../../components/bookmarks-panel";
 import { DatePickerModal } from "../../components/date-picker-modal";
+import { useSyncedSources } from "@/src/hooks/use-synced-sources";
 
 export function BriefingPage() {
   const [bookmarksOpen, setBookmarksOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const { sources } = useSyncedSources();
 
   return (
     <div
       className="relative min-h-screen bg-alm-bg text-alm-ink font-sans antialiased overflow-x-hidden"
       style={{ fontFeatureSettings: '"ss01", "cv11", "tnum"' }}
     >
-      {/* Star-grid backdrop */}
       <div className="alm-starfield" />
-
-      {/* All content above the backdrop */}
       <div className="relative z-10 flex flex-col min-h-screen">
         <TopBar
           bookmarksOpen={bookmarksOpen}
@@ -44,36 +43,26 @@ export function BriefingPage() {
             <SunMoonCard />
           </div>
         </main>
-
-        {/* On This Day — full width */}
         <section className="px-8 pb-12">
           <EventsCard />
         </section>
-
-        {/* Births & Deaths — full width */}
         <section className="px-8 pb-12">
           <PeopleCard />
         </section>
-
-        {/* Footer */}
         <footer className="px-8 py-7 pb-9 border-t border-[oklch(0.240_0.018_245)] flex justify-between items-center font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mt-auto">
           <div>Almanac · Observatory build · v0.4.1</div>
           <div className="flex gap-[18px]">
-            {["NASA APOD", "Wikipedia", "Open-Meteo", "OpenAI"].map(
-              (src) => (
-                <span
-                  key={src}
-                  className="text-alm-ink-mute before:content-['●'] before:mr-1.5 before:text-alm-positive"
-                >
-                  {src}
-                </span>
-              ),
-            )}
+            {sources.map(({ name, synced }) => (
+              <span
+                key={name}
+                className={`before:content-['●'] before:mr-1.5 ${synced ? "text-alm-ink-mute before:text-alm-positive" : "text-alm-ink-faint before:text-alm-ink-faint"}`}
+              >
+                {name}
+              </span>
+            ))}
           </div>
         </footer>
       </div>
-
-      {/* Overlays */}
       {bookmarksOpen && (
         <BookmarksPanel onClose={() => setBookmarksOpen(false)} />
       )}
