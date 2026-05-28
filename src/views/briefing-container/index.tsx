@@ -50,7 +50,7 @@ export function BriefingPage() {
           <PeopleCard />
         </section>
         <footer className="px-8 py-7 pb-9 border-t border-[oklch(0.240_0.018_245)] flex justify-between items-center font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mt-auto">
-          <div>Almanac · Observatory build · v0.4.1</div>
+          <p>Almanac</p>
           <div className="flex gap-[18px]">
             {sources.map(({ name, synced }) => (
               <span
