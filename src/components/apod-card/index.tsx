@@ -37,8 +37,8 @@ export function ApodCard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1.1fr_1fr] min-h-[460px]">
-        <div className="relative overflow-hidden">
+      <div className="grid grid-cols-1 sm:grid-cols-[1.1fr_1fr] min-h-[220px] sm:min-h-[460px]">
+        <div className="relative overflow-hidden min-h-[220px] sm:min-h-0">
           {hasImage ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -72,11 +72,11 @@ export function ApodCard() {
           </div>
         </div>
 
-        <div className="p-7 flex flex-col gap-3.5">
+        <div className="p-5 sm:p-7 flex flex-col gap-3 sm:gap-3.5">
           <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-alm-accent flex gap-2.5 items-center">
             ○ Image of the Day · {apod.date}
           </div>
-          <h2 className="font-display text-[36px] leading-[1.05] font-normal text-alm-ink tracking-[-0.01em] m-0">
+          <h2 className="font-display text-[26px] sm:text-[36px] leading-[1.05] font-normal text-alm-ink tracking-[-0.01em] m-0">
             {apod.title}
           </h2>
           <p className="text-sm leading-[1.65] text-alm-ink-dim m-0 max-w-[52ch]">

@@ -14,7 +14,7 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
 
   return (
     <aside
-      className="absolute right-0 top-0 bottom-0 w-[420px] bg-alm-surface border-l border-[oklch(0.295_0.020_245)] flex flex-col z-20"
+      className="absolute right-0 top-0 bottom-0 w-full sm:w-[420px] bg-alm-surface border-l border-[oklch(0.295_0.020_245)] flex flex-col z-20"
       style={{ boxShadow: "-24px 0 60px oklch(0 0 0 / 0.5)" }}
     >
       {/* Header */}

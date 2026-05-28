@@ -32,7 +32,7 @@ export function BriefingPage() {
 
         <DateHeader onPickerOpen={() => setPickerOpen(true)} />
 
-        <main className="px-8 py-7 grid grid-cols-[2fr_1fr] gap-5">
+        <main className="px-4 sm:px-8 py-5 sm:py-7 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5">
           <div>
             <ApodCard />
           </div>
@@ -43,13 +43,13 @@ export function BriefingPage() {
             <SunMoonCard />
           </div>
         </main>
-        <section className="px-8 pb-12">
+        <section className="px-4 sm:px-8 pb-8 sm:pb-12">
           <EventsCard />
         </section>
-        <section className="px-8 pb-12">
+        <section className="px-4 sm:px-8 pb-8 sm:pb-12">
           <PeopleCard />
         </section>
-        <footer className="px-8 py-7 pb-9 border-t border-[oklch(0.240_0.018_245)] flex justify-between items-center font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mt-auto">
+        <footer className="px-4 sm:px-8 py-6 sm:py-7 pb-8 sm:pb-9 border-t border-[oklch(0.240_0.018_245)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mt-auto">
           <p>Almanac</p>
           <div className="flex gap-[18px]">
             {sources.map(({ name, synced }) => (

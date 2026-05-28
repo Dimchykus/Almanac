@@ -107,12 +107,7 @@ export function PeopleCard() {
         </div>
       </div>
       {all.length > 0 ? (
-        <div
-          className="grid gap-px bg-[oklch(0.240_0.018_245)]"
-          style={{
-            gridTemplateColumns: `repeat(${Math.min(all.length, 3)}, 1fr)`,
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[oklch(0.240_0.018_245)]">
           {all.map(({ person, label }, i) => (
             <PersonTile
               key={i}

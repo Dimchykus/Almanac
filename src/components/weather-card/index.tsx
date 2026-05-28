@@ -37,14 +37,14 @@ export function WeatherCard() {
           Open-Meteo · Archive
         </div>
       </div>
-      <div className="p-5">
-        <div className="font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-mute mb-3.5 flex items-center gap-2">
+      <div className="p-4 sm:p-5">
+        <div className="font-mono text-[10px] sm:text-[11px] tracking-[0.1em] uppercase text-alm-ink-mute mb-3 sm:mb-3.5 flex items-center gap-2">
           <AlmIcon name="pin" size={11} />
           {weather.location} · {weather.coord}
         </div>
-        <div className="font-display text-[56px] leading-none tracking-[-0.02em] text-alm-ink flex items-start">
+        <div className="font-display text-[48px] sm:text-[56px] leading-none tracking-[-0.02em] text-alm-ink flex items-start">
           {weather.now}
-          <sup className="text-[20px] mt-1.5 text-alm-ink-mute">°C</sup>
+          <sup className="text-[18px] sm:text-[20px] mt-1.5 text-alm-ink-mute">°C</sup>
         </div>
         <div className="font-display italic text-[18px] text-alm-ink-dim mt-1">
           {weather.desc}

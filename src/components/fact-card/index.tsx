@@ -27,11 +27,11 @@ export function FactCard() {
           OpenAI · ChatGPT
         </div>
       </div>
-      <div className="p-5 flex flex-col gap-3">
-        <div className="font-display text-[64px] leading-none text-alm-accent italic">
+      <div className="p-4 sm:p-5 flex flex-col gap-3">
+        <div className="font-display text-[52px] sm:text-[64px] leading-none text-alm-accent italic">
           {parseInt(day)}
         </div>
-        <div className="font-display text-[20px] leading-[1.3] text-alm-ink">
+        <div className="font-display text-[18px] sm:text-[20px] leading-[1.3] text-alm-ink">
           {fact.text}
         </div>
       </div>

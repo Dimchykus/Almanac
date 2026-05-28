@@ -65,10 +65,10 @@ export function EventsCard() {
           return (
             <div
               key={i}
-              className="grid gap-5 px-5 py-[18px] border-b border-[oklch(0.240_0.018_245)] last:border-b-0 items-baseline"
-              style={{ gridTemplateColumns: "88px 1fr auto" }}
+              className="grid gap-3 sm:gap-5 px-4 sm:px-5 py-4 sm:py-[18px] border-b border-[oklch(0.240_0.018_245)] last:border-b-0 items-baseline"
+              style={{ gridTemplateColumns: "64px 1fr auto" }}
             >
-              <div className="font-display text-[28px] text-alm-accent italic tabular-nums">
+              <div className="font-display text-[22px] sm:text-[28px] text-alm-accent italic tabular-nums">
                 {e.y}
               </div>
               <div className="text-sm leading-[1.55] text-alm-ink">

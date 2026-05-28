@@ -30,21 +30,21 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
   const daysRemaining = getDaysInYear(date) - dayOfYear;
 
   return (
-    <section className="px-8 pt-9 pb-6 border-b border-[oklch(0.240_0.018_245)]">
+    <section className="px-4 sm:px-8 pt-6 sm:pt-9 pb-5 sm:pb-6 border-b border-[oklch(0.240_0.018_245)]">
       {/* Eyebrow */}
-      <div className="flex items-center gap-3.5 font-mono text-[11px] tracking-[0.14em] uppercase text-alm-ink-mute mb-3.5">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-alm-ink-mute mb-3 sm:mb-3.5">
         <span className="w-1.5 h-1.5 rounded-full bg-alm-accent shadow-[0_0_0_4px_oklch(0.76_0.16_60/0.18)]" />
         <span>{isToday ? "Today's Briefing" : "Past Briefing"}</span>
-        <span className="text-alm-ink-faint">·</span>
-        <span>Compiled {iso} 06:00 UTC</span>
+        <span className="text-alm-ink-faint hidden sm:inline">·</span>
+        <span className="hidden sm:inline">Compiled {iso} 06:00 UTC</span>
         <span className="text-alm-ink-faint">·</span>
         <span>{syncedCount} of {total} sources synced</span>
       </div>
 
       {/* Date line */}
-      <div className="flex items-end justify-between gap-8">
-        <h1 className="font-display font-normal text-[clamp(56px,6.5vw,96px)] leading-[0.95] tracking-[-0.01em] text-alm-ink flex items-baseline gap-4">
-          <span className="font-mono text-[13px] tracking-[0.16em] text-alm-ink-mute uppercase font-medium self-end pb-3.5">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-8">
+        <h1 className="font-display font-normal text-[clamp(36px,6.5vw,96px)] leading-[0.95] tracking-[-0.01em] text-alm-ink flex items-baseline gap-2 sm:gap-4">
+          <span className="font-mono text-[11px] sm:text-[13px] tracking-[0.16em] text-alm-ink-mute uppercase font-medium self-end pb-2 sm:pb-3.5">
             {format(date, "EEEE")}
           </span>
           <span>
@@ -63,9 +63,10 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
           </button>
           <button
             onClick={onPickerOpen}
-            className="h-9 px-3.5 inline-flex items-center gap-2 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors"
+            className="h-9 px-3 sm:px-3.5 inline-flex items-center gap-2 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors"
           >
-            <AlmIcon name="cal" size={14} /> Jump to date
+            <AlmIcon name="cal" size={14} />
+            <span className="hidden sm:inline">Jump to date</span>
           </button>
           <button
             onClick={nextDay}
@@ -78,7 +79,7 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
       </div>
 
       {/* Telemetry strip */}
-      <div className="mt-6 grid grid-cols-6 gap-px bg-[oklch(0.240_0.018_245)] border-t border-b border-[oklch(0.240_0.018_245)]">
+      <div className="mt-4 sm:mt-6 grid grid-cols-3 sm:grid-cols-6 gap-px bg-[oklch(0.240_0.018_245)] border-t border-b border-[oklch(0.240_0.018_245)]">
         {[
           { k: "Day", v: dayOfYear, small: `/${getDaysInYear(date)}` },
           { k: "Remaining", v: daysRemaining, small: "days" },
@@ -87,14 +88,14 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
           { k: "Daylight", v: sun?.length ?? "—" },
           { k: "Solar Noon", v: sun?.noon ?? "—" },
         ].map(({ k, v, small }) => (
-          <div key={k} className="bg-alm-bg px-4 py-3.5">
-            <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mb-1.5">
+          <div key={k} className="bg-alm-bg px-3 sm:px-4 py-3">
+            <div className="font-mono text-[9px] sm:text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mb-1 sm:mb-1.5">
               {k}
             </div>
-            <div className="font-mono text-[15px] text-alm-ink tracking-[0.02em]">
+            <div className="font-mono text-[13px] sm:text-[15px] text-alm-ink tracking-[0.02em]">
               {v}
               {small && (
-                <small className="text-[11px] text-alm-ink-mute ml-1">
+                <small className="text-[10px] sm:text-[11px] text-alm-ink-mute ml-1">
                   {small}
                 </small>
               )}

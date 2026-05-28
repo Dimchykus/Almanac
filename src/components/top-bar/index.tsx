@@ -12,19 +12,20 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks }: TopBarProps) {
   const { bookmarks } = useBookmarks();
 
   return (
-    <header className="flex items-center gap-6 px-8 h-14 border-b border-[oklch(0.240_0.018_245)] bg-gradient-to-b from-[oklch(0.15_0.015_245)] to-transparent flex-shrink-0">
+    <header className="flex items-center gap-3 sm:gap-6 px-4 sm:px-8 h-14 border-b border-[oklch(0.240_0.018_245)] bg-gradient-to-b from-[oklch(0.15_0.015_245)] to-transparent flex-shrink-0">
       {/* Wordmark */}
-      <div className="font-display text-[22px] tracking-[0.12em] text-alm-ink flex items-center">
+      <div className="font-display text-[20px] sm:text-[22px] tracking-[0.12em] text-alm-ink flex items-center">
         ALMANAC
       </div>
 
       <div className="flex-1" />
 
       {/* Search */}
-      <div className="flex items-center gap-2 h-8 px-3 border border-[oklch(0.295_0.020_245)] rounded-md bg-[oklch(0.155_0.015_245/0.6)] font-mono text-xs text-alm-ink-mute min-w-[280px]">
+      <div className="hidden sm:flex items-center gap-2 h-8 px-3 border border-[oklch(0.295_0.020_245)] rounded-md bg-[oklch(0.155_0.015_245/0.6)] font-mono text-xs text-alm-ink-mute min-w-[200px] lg:min-w-[280px]">
         <AlmIcon name="search" size={14} />
-        <span>Search dates, events, entities…</span>
-        <span className="ml-auto text-[10px] px-1 py-0.5 border border-[oklch(0.295_0.020_245)] rounded text-alm-ink-faint">
+        <span className="hidden md:inline">Search dates, events, entities…</span>
+        <span className="md:hidden">Search…</span>
+        <span className="ml-auto text-[10px] px-1 py-0.5 border border-[oklch(0.295_0.020_245)] rounded text-alm-ink-faint hidden lg:inline">
           ⌘K
         </span>
       </div>
