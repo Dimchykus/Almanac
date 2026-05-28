@@ -20,16 +20,6 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks }: TopBarProps) {
 
       <div className="flex-1" />
 
-      {/* Search */}
-      <div className="hidden sm:flex items-center gap-2 h-8 px-3 border border-[oklch(0.295_0.020_245)] rounded-md bg-[oklch(0.155_0.015_245/0.6)] font-mono text-xs text-alm-ink-mute min-w-[200px] lg:min-w-[280px]">
-        <AlmIcon name="search" size={14} />
-        <span className="hidden md:inline">Search dates, events, entities…</span>
-        <span className="md:hidden">Search…</span>
-        <span className="ml-auto text-[10px] px-1 py-0.5 border border-[oklch(0.295_0.020_245)] rounded text-alm-ink-faint hidden lg:inline">
-          ⌘K
-        </span>
-      </div>
-
       {/* Bookmark toggle */}
       <button
         onClick={onToggleBookmarks}
@@ -48,13 +38,7 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks }: TopBarProps) {
         )}
       </button>
 
-      {/* Settings */}
-      <button
-        className="w-8 h-8 inline-flex items-center justify-center border border-[oklch(0.295_0.020_245)] bg-transparent text-alm-ink-dim rounded-md cursor-pointer"
-        title="Settings"
-      >
-        <AlmIcon name="settings" />
-      </button>
+
     </header>
   );
 }
