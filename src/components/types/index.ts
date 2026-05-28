@@ -33,7 +33,6 @@ export interface AlmanacWeather {
 
 export interface AlmanacFact {
   text: string;
-  source: string;
 }
 
 export interface AlmanacEvent {

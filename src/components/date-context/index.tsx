@@ -18,7 +18,7 @@ const DateContext = createContext<DateContextValue>({
 });
 
 export function DateProvider({ children }: { children: React.ReactNode }) {
-  const today = useMemo(() => format(new Date(), "yyyy-MM-dd"), []);
+  const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const [date, setDate] = useState(today);
 
   const prevDay = () => setDate((d) => format(subDays(parseISO(d), 1), "yyyy-MM-dd"));

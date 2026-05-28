@@ -11,12 +11,10 @@ import { EventsCard } from "../../components/events-card";
 import { PeopleCard } from "../../components/people-card";
 import { BookmarksPanel } from "../../components/bookmarks-panel";
 import { DatePickerModal } from "../../components/date-picker-modal";
-import { ALMANAC_DATA } from "../../components/data";
 
 export function BriefingPage() {
   const [bookmarksOpen, setBookmarksOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const d = ALMANAC_DATA;
 
   return (
     <div
@@ -41,7 +39,7 @@ export function BriefingPage() {
           </div>
 
           <div className="flex flex-col gap-5">
-            <FactCard date={d.date} fact={d.fact} />
+            <FactCard />
             <WeatherCard />
             <SunMoonCard />
           </div>
@@ -61,7 +59,7 @@ export function BriefingPage() {
         <footer className="px-8 py-7 pb-9 border-t border-[oklch(0.240_0.018_245)] flex justify-between items-center font-mono text-[10px] tracking-[0.14em] uppercase text-alm-ink-faint mt-auto">
           <div>Almanac · Observatory build · v0.4.1</div>
           <div className="flex gap-[18px]">
-            {["NASA APOD", "Wikipedia", "Open-Meteo", "Numbers API"].map(
+            {["NASA APOD", "Wikipedia", "Open-Meteo", "OpenAI"].map(
               (src) => (
                 <span
                   key={src}
