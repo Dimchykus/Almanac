@@ -12,7 +12,7 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks }: TopBarProps) {
   const { bookmarks } = useBookmarks();
 
   return (
-    <header className="flex items-center gap-3 sm:gap-6 px-4 sm:px-8 h-14 border-b border-[oklch(0.240_0.018_245)] bg-gradient-to-b from-[oklch(0.15_0.015_245)] to-transparent flex-shrink-0">
+    <header className="sticky top-0 z-40 flex items-center gap-3 sm:gap-6 px-4 sm:px-8 h-14 border-b border-[oklch(0.240_0.018_245)] bg-gradient-to-b from-[oklch(0.15_0.015_245)] to-[oklch(0.13_0.015_245)] flex-shrink-0">
       {/* Wordmark */}
       <div className="font-display text-[20px] sm:text-[22px] tracking-[0.12em] text-alm-ink flex items-center">
         ALMANAC

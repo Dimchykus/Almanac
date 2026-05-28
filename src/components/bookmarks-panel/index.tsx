@@ -2,8 +2,7 @@
 
 import { AlmIcon } from "../alm-icon";
 import { useBookmarks } from "../bookmarks-context";
-
-const TABS = ["All", "History", "Sky", "People", "Facts"];
+import { useLockScroll } from "@/src/hooks/use-lock-scroll";
 
 interface BookmarksPanelProps {
   onClose: () => void;
@@ -12,11 +11,18 @@ interface BookmarksPanelProps {
 export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
   const { bookmarks } = useBookmarks();
 
+  useLockScroll();
+
   return (
-    <aside
-      className="absolute right-0 top-0 bottom-0 w-full sm:w-[420px] bg-alm-surface border-l border-[oklch(0.295_0.020_245)] flex flex-col z-20"
-      style={{ boxShadow: "-24px 0 60px oklch(0 0 0 / 0.5)" }}
-    >
+    <>
+      <div
+        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200"
+        onClick={onClose}
+      />
+      <aside
+        className="fixed right-0 top-0 bottom-0 w-full sm:w-[420px] bg-alm-surface border-l border-[oklch(0.295_0.020_245)] flex flex-col z-50 animate-in slide-in-from-right duration-300 ease-out"
+        style={{ boxShadow: "-24px 0 60px oklch(0 0 0 / 0.5)" }}
+      >
       {/* Header */}
       <div className="px-6 pt-[22px] pb-[18px] border-b border-[oklch(0.240_0.018_245)]">
         <div className="flex justify-between items-center">
@@ -37,21 +43,6 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 mt-[18px]">
-          {TABS.map((tab, i) => (
-            <button
-              key={tab}
-              className={`font-mono text-[10px] tracking-[0.14em] uppercase px-2.5 py-1.5 border rounded-[3px] cursor-pointer ${
-                i === 0
-                  ? "border-alm-accent text-alm-accent bg-[oklch(0.76_0.16_60/0.08)]"
-                  : "border-[oklch(0.295_0.020_245)] text-alm-ink-mute bg-transparent"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Bookmark list */}
@@ -77,5 +68,6 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
         ))}
       </div>
     </aside>
+    </>
   );
 }

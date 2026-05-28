@@ -20,7 +20,7 @@ export function BriefingPage() {
 
   return (
     <div
-      className="relative min-h-screen bg-alm-bg text-alm-ink font-sans antialiased overflow-x-hidden"
+      className="relative min-h-screen bg-alm-bg text-alm-ink font-sans antialiased"
       style={{ fontFeatureSettings: '"ss01", "cv11", "tnum"' }}
     >
       <div className="alm-starfield" />
@@ -32,7 +32,7 @@ export function BriefingPage() {
 
         <DateHeader onPickerOpen={() => setPickerOpen(true)} />
 
-        <main className="px-4 sm:px-8 py-5 sm:py-7 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5">
+        <main className="px-4 sm:px-8 py-5 sm:py-7 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5 overflow-x-hidden">
           <div>
             <ApodCard />
           </div>
@@ -55,7 +55,11 @@ export function BriefingPage() {
             {sources.map(({ name, synced }) => (
               <span
                 key={name}
-                className={`before:content-['●'] before:mr-1.5 ${synced ? "text-alm-ink-mute before:text-alm-positive" : "text-alm-ink-faint before:text-alm-ink-faint"}`}
+                className={`before:content-['●'] before:mr-1.5 ${
+                  synced
+                    ? "text-alm-ink-mute before:text-alm-positive"
+                    : "text-alm-ink-faint before:text-alm-ink-faint"
+                }`}
               >
                 {name}
               </span>
