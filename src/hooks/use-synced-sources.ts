@@ -6,7 +6,7 @@ import { onThisDayQueryKey, fetchOnThisDayClient } from "@/src/lib/wikipedia";
 import { openAiQueryKey, fetchOpenAiClient } from "@/src/lib/open-ai";
 import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
-import { geoipQueryKey, fetchGeoIp } from "@/src/lib/geoip";
+import { useGeo } from "@/src/hooks/use-geo";
 import { useDate } from "@/src/components/date-context";
 
 export interface SourceStatus {
@@ -16,20 +16,20 @@ export interface SourceStatus {
 
 export function useSyncedSources() {
   const date = useDate();
+  const { lat, lon, location, ready } = useGeo();
 
-  const { data: geo } = useQuery({ queryKey: geoipQueryKey, queryFn: fetchGeoIp });
   const { data: apod } = useQuery({ queryKey: apodQueryKey(date), queryFn: () => fetchApodClient(date) });
   const { data: onThisDay } = useQuery({ queryKey: onThisDayQueryKey(date), queryFn: () => fetchOnThisDayClient(date) });
   const { data: fact } = useQuery({ queryKey: openAiQueryKey(date), queryFn: () => fetchOpenAiClient(date) });
   const { data: weather } = useQuery({
-    queryKey: weatherQueryKey(date, geo?.lat ?? 0, geo?.lon ?? 0),
-    queryFn: () => fetchWeatherClient(date, geo!.lat, geo!.lon, geo?.city ?? ""),
-    enabled: !!geo,
+    queryKey: weatherQueryKey(date, lat, lon),
+    queryFn: () => fetchWeatherClient(date, lat, lon, location),
+    enabled: ready,
   });
   const { data: sun } = useQuery({
-    queryKey: sunQueryKey(date, geo?.lat ?? 0, geo?.lon ?? 0),
-    queryFn: () => fetchSunClient(date, geo!.lat, geo!.lon),
-    enabled: !!geo,
+    queryKey: sunQueryKey(date, lat, lon),
+    queryFn: () => fetchSunClient(date, lat, lon),
+    enabled: ready,
   });
 
   const sources: SourceStatus[] = [

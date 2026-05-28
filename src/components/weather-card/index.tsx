@@ -2,24 +2,18 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
-import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
+import { useGeo } from "@/src/hooks/use-geo";
 import { useDate } from "../date-context";
 import { AlmIcon } from "../alm-icon";
 
 export function WeatherCard() {
   const date = useDate();
-
-  const { data: geo } = useQuery({
-    queryKey: geoipQueryKey,
-    queryFn: fetchGeoIp,
-  });
-
-  const location = geo ? `${geo.city}, ${geo.countryCode}` : "";
+  const { lat, lon, location, ready } = useGeo();
 
   const { data: weather } = useQuery({
-    queryKey: weatherQueryKey(date, geo?.lat ?? 0, geo?.lon ?? 0),
-    queryFn: () => fetchWeatherClient(date, geo!.lat, geo!.lon, location),
-    enabled: !!geo && !!date,
+    queryKey: weatherQueryKey(date, lat, lon),
+    queryFn: () => fetchWeatherClient(date, lat, lon, location),
+    enabled: ready && !!date,
   });
 
   if (!weather) return null;

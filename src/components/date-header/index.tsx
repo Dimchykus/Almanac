@@ -4,7 +4,7 @@ import { format, getDayOfYear, getDaysInYear, parseISO } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { AlmIcon } from "../alm-icon";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
-import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
+import { useGeo } from "@/src/hooks/use-geo";
 import { useDate, useDateNav } from "../date-context";
 import { useSyncedSources } from "@/src/hooks/use-synced-sources";
 
@@ -16,11 +16,11 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
   const iso = useDate();
   const { prevDay, nextDay, isToday } = useDateNav();
 
-  const { data: geo } = useQuery({ queryKey: geoipQueryKey, queryFn: fetchGeoIp });
+  const { lat, lon, ready } = useGeo();
   const { data: sun } = useQuery({
-    queryKey: sunQueryKey(iso, geo?.lat ?? 0, geo?.lon ?? 0),
-    queryFn: () => fetchSunClient(iso, geo!.lat, geo!.lon),
-    enabled: !!geo && !!iso,
+    queryKey: sunQueryKey(iso, lat, lon),
+    queryFn: () => fetchSunClient(iso, lat, lon),
+    enabled: ready && !!iso,
   });
 
   const { syncedCount, total } = useSyncedSources();

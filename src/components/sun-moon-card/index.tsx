@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
-import { fetchGeoIp, geoipQueryKey } from "@/src/lib/geoip";
+import { useGeo } from "@/src/hooks/use-geo";
 import { useDate, useDateNav } from "../date-context";
 
 function toMinutes(t: string): number {
@@ -26,16 +26,12 @@ function calcMarker(rise: string, set: string) {
 export function SunMoonCard() {
   const date = useDate();
   const { isToday } = useDateNav();
-
-  const { data: geo } = useQuery({
-    queryKey: geoipQueryKey,
-    queryFn: fetchGeoIp,
-  });
+  const { lat, lon, ready } = useGeo();
 
   const { data: sun } = useQuery({
-    queryKey: sunQueryKey(date, geo?.lat ?? 0, geo?.lon ?? 0),
-    queryFn: () => fetchSunClient(date, geo!.lat, geo!.lon),
-    enabled: !!geo && !!date,
+    queryKey: sunQueryKey(date, lat, lon),
+    queryFn: () => fetchSunClient(date, lat, lon),
+    enabled: ready && !!date,
   });
 
   if (!sun) return null;
