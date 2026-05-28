@@ -1,27 +1,142 @@
 "use client";
 
 import { useState } from "react";
+import {
+  format,
+  startOfMonth,
+  getDaysInMonth,
+  getDay,
+  addMonths,
+  subMonths,
+  subDays,
+  subYears,
+  parseISO,
+  isValid,
+} from "date-fns";
 import { AlmIcon } from "../alm-icon";
-
-const DOWS = ["S", "M", "T", "W", "T", "F", "S"];
-const LEADING = [27, 28, 29, 30]; // April, dimmed
-const TRAILING = [1, 2, 3, 4, 5, 6]; // June, dimmed
-const MARKS = new Set([5, 9, 14, 17, 20, 21, 25, 27, 31]);
-const QUICK_PICKS = ["Today", "Yesterday", "One year ago", "Random", "Type a date…"];
+import { useDate, useGoToDate } from "@/src/contexts/date-context";
+import { Button } from "@/components/ui/button";
 
 interface DatePickerModalProps {
-  selectedDay?: number;
   onClose: () => void;
 }
 
-export function DatePickerModal({ selectedDay = 21, onClose }: DatePickerModalProps) {
-  const [selected, setSelected] = useState(selectedDay);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+const DOWS = ["S", "M", "T", "W", "T", "F", "S"];
+
+export function DatePickerModal({ onClose }: DatePickerModalProps) {
+  const iso = useDate();
+  const goToDate = useGoToDate();
+  const today = new Date().toISOString().slice(0, 10);
+
+  const [viewDate, setViewDate] = useState(() => startOfMonth(parseISO(iso)));
+  const [typeMode, setTypeMode] = useState(false);
+  const [typeInput, setTypeInput] = useState("");
+
+  const viewYear = viewDate.getFullYear();
+  const viewMonth = viewDate.getMonth();
+  const viewMonthIso = format(viewDate, "yyyy-MM");
+  const todayMonthIso = today.slice(0, 7);
+  const isAtTodayMonth = viewMonthIso >= todayMonthIso;
+
+  const firstDow = getDay(viewDate);
+  const daysInMonth = getDaysInMonth(viewDate);
+
+  const prevMonthDays = getDaysInMonth(subMonths(viewDate, 1));
+  const leading = Array.from(
+    { length: firstDow },
+    (_, i) => prevMonthDays - firstDow + 1 + i,
+  );
+
+  const totalCells = Math.ceil((firstDow + daysInMonth) / 7) * 7;
+  const trailing = Array.from(
+    { length: totalCells - firstDow - daysInMonth },
+    (_, i) => i + 1,
+  );
+
+  function toISO(day: number) {
+    return format(new Date(viewYear, viewMonth, day), "yyyy-MM-dd");
+  }
+
+  function handleSelect(day: number) {
+    const newIso = toISO(day);
+    if (newIso > today) return;
+    goToDate(newIso);
+    onClose();
+  }
+
+  function prevMonth() {
+    setViewDate((d) => startOfMonth(subMonths(d, 1)));
+  }
+
+  function nextMonth() {
+    if (isAtTodayMonth) return;
+    setViewDate((d) => startOfMonth(addMonths(d, 1)));
+  }
+
+  function jumpToTodayMonth() {
+    setViewDate(startOfMonth(parseISO(today)));
+  }
+
+  function goToday() {
+    goToDate(today);
+    onClose();
+  }
+
+  function goYesterday() {
+    goToDate(format(subDays(new Date(), 1), "yyyy-MM-dd"));
+    onClose();
+  }
+
+  function goOneYearAgo() {
+    goToDate(format(subYears(new Date(), 1), "yyyy-MM-dd"));
+    onClose();
+  }
+
+  function goRandom() {
+    const start = new Date(1970, 0, 1).getTime();
+    const end = new Date().getTime();
+    const rand = new Date(start + Math.random() * (end - start));
+    goToDate(format(rand, "yyyy-MM-dd"));
+    onClose();
+  }
+
+  const isTypeInputValid = (() => {
+    if (typeInput.length !== 10) return false;
+    const parsed = parseISO(typeInput);
+    return isValid(parsed) && format(parsed, "yyyy-MM-dd") === typeInput && typeInput <= today;
+  })();
+
+  function handleDateInput(raw: string) {
+    const digits = raw.replace(/\D/g, "").slice(0, 8);
+    let masked = digits;
+    if (digits.length > 4) masked = digits.slice(0, 4) + "-" + digits.slice(4);
+    if (digits.length > 6) masked = masked.slice(0, 7) + "-" + digits.slice(6);
+    setTypeInput(masked);
+  }
+
+  function handleTypeSubmit() {
+    if (!typeInput.trim()) return;
+    try {
+      const parsed = parseISO(typeInput.trim());
+      if (!isNaN(parsed.getTime())) {
+        const newIso = format(parsed, "yyyy-MM-dd");
+        if (newIso <= today) {
+          goToDate(newIso);
+          onClose();
+        }
+      }
+    } catch {
+      // invalid input, do nothing
+    }
+  }
 
   return (
     <div
       className="absolute inset-0 flex items-start justify-center pt-[130px] z-30"
-      style={{ background: "oklch(0.10 0.012 245 / 0.74)", backdropFilter: "blur(6px)" }}
+      style={{
+        background: "oklch(0.10 0.012 245 / 0.74)",
+        backdropFilter: "blur(6px)",
+      }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
@@ -31,25 +146,26 @@ export function DatePickerModal({ selectedDay = 21, onClose }: DatePickerModalPr
         {/* Header */}
         <div className="flex justify-between items-center mb-5">
           <div className="font-display text-2xl text-alm-ink">
-            May{" "}
-            <em className="italic text-alm-accent">2026</em>
+            {format(viewDate, "MMMM")}{" "}
+            <em className="italic text-alm-accent">
+              {format(viewDate, "yyyy")}
+            </em>
           </div>
           <div className="flex gap-1.5">
-            <button className="w-8 h-8 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer inline-flex items-center justify-center">
+            <Button variant="outline" size="icon-sm" onClick={prevMonth}>
               <AlmIcon name="arrow-l" size={14} />
-            </button>
-            <button className="w-8 h-8 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer inline-flex items-center justify-center">
+            </Button>
+            <Button variant="outline" size="icon-sm" onClick={jumpToTodayMonth} title="Go to today">
               <AlmIcon name="cal" size={14} />
-            </button>
-            <button className="w-8 h-8 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer inline-flex items-center justify-center">
+            </Button>
+            <Button variant="outline" size="icon-sm" onClick={nextMonth} disabled={isAtTodayMonth}>
               <AlmIcon name="arrow-r" size={14} />
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* Calendar grid */}
         <div className="grid grid-cols-7 gap-1">
-          {/* Day-of-week headers */}
           {DOWS.map((d, i) => (
             <div
               key={`dow-${i}`}
@@ -59,66 +175,77 @@ export function DatePickerModal({ selectedDay = 21, onClose }: DatePickerModalPr
             </div>
           ))}
 
-          {/* Leading days (prev month) */}
-          {LEADING.map((d) => (
+          {leading.map((d, i) => (
             <div
-              key={`l-${d}`}
-              className="h-14 rounded-md flex flex-col items-center justify-center gap-0.5 font-mono text-sm text-alm-ink-faint opacity-50 cursor-pointer"
+              key={`l-${i}`}
+              className="h-14 rounded-md flex items-center justify-center font-mono text-sm text-alm-ink-faint opacity-30"
             >
               {d}
-              <span className="w-1 h-1 rounded-full bg-alm-accent opacity-0" />
             </div>
           ))}
 
-          {/* Current month days */}
-          {days.map((d) => {
-            const isSelected = d === selected;
-            const isToday = d === 21;
-            const hasMark = MARKS.has(d);
+          {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((d) => {
+            const dayIso = toISO(d);
+            const isSelected = dayIso === iso;
+            const isTodayDay = dayIso === today;
+            const isFutureDay = dayIso > today;
             return (
-              <button
+              <Button
                 key={`d-${d}`}
-                onClick={() => setSelected(d)}
-                className={`h-14 rounded-md flex flex-col items-center justify-center gap-0.5 font-mono text-sm cursor-pointer border transition-colors ${
+                variant="ghost"
+                onClick={() => handleSelect(d)}
+                disabled={isFutureDay}
+                className={`h-14 w-full rounded-md font-mono text-sm border transition-colors ${
                   isSelected
-                    ? "bg-alm-accent text-[oklch(0.13_0.015_245)] font-semibold border-alm-accent"
-                    : isToday
-                    ? "border-alm-accent text-alm-accent"
-                    : "border-transparent text-alm-ink-dim hover:bg-alm-surface-2"
+                    ? "bg-alm-accent text-[oklch(0.13_0.015_245)] font-semibold border-alm-accent hover:bg-alm-accent"
+                    : isTodayDay
+                      ? "border-alm-accent text-alm-accent"
+                      : "border-transparent text-alm-ink-dim"
                 }`}
               >
                 {d}
-                <span
-                  className={`w-1 h-1 rounded-full ${
-                    isSelected ? "bg-[oklch(0.13_0.015_245)]" : "bg-alm-accent"
-                  } ${hasMark ? "opacity-80" : "opacity-0"}`}
-                />
-              </button>
+              </Button>
             );
           })}
 
-          {/* Trailing days (next month) */}
-          {TRAILING.map((d) => (
+          {trailing.map((d, i) => (
             <div
-              key={`t-${d}`}
-              className="h-14 rounded-md flex flex-col items-center justify-center gap-0.5 font-mono text-sm text-alm-ink-faint opacity-50 cursor-pointer"
+              key={`t-${i}`}
+              className="h-14 rounded-md flex items-center justify-center font-mono text-sm text-alm-ink-faint opacity-30"
             >
               {d}
-              <span className="w-1 h-1 rounded-full bg-alm-accent opacity-0" />
             </div>
           ))}
         </div>
 
-        {/* Quick picks */}
-        <div className="mt-5 pt-[18px] border-t border-[oklch(0.240_0.018_245)] flex gap-2 flex-wrap">
-          {QUICK_PICKS.map((q) => (
-            <button
-              key={q}
-              className="font-mono text-[11px] tracking-[0.1em] uppercase px-3 py-1.5 bg-transparent border border-[oklch(0.295_0.020_245)] text-alm-ink-dim rounded-[3px] cursor-pointer"
-            >
-              {q}
-            </button>
-          ))}
+        {/* Quick picks / type input */}
+        <div className="mt-5 pt-[18px] border-t border-[oklch(0.240_0.018_245)]">
+          {typeMode ? (
+            <div className="flex gap-2">
+              <input
+                autoFocus
+                type="text"
+                value={typeInput}
+                onChange={(e) => handleDateInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleTypeSubmit();
+                  if (e.key === "Escape") setTypeMode(false);
+                }}
+                placeholder="YYYY-MM-DD"
+                className="flex-1 font-mono text-[11px] tracking-[0.1em] px-3 py-1.5 bg-transparent border border-[oklch(0.295_0.020_245)] text-alm-ink rounded-[3px] outline-none focus:border-alm-accent"
+              />
+              <Button onClick={handleTypeSubmit} disabled={!isTypeInputValid}>Go</Button>
+              <Button variant="outline" onClick={() => setTypeMode(false)}>Cancel</Button>
+            </div>
+          ) : (
+            <div className="flex gap-2 flex-wrap">
+              <Button variant="outline" size="sm" onClick={goToday}>Today</Button>
+              <Button variant="outline" size="sm" onClick={goYesterday}>Yesterday</Button>
+              <Button variant="outline" size="sm" onClick={goOneYearAgo}>One year ago</Button>
+              <Button variant="outline" size="sm" onClick={goRandom}>Random</Button>
+              <Button variant="outline" size="sm" onClick={() => setTypeMode(true)}>Type a date…</Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
