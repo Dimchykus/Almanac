@@ -13,23 +13,11 @@ export function EventsCard() {
   const date = useDate();
   const { addBookmark, removeBookmark, isBookmarked } = useBookmarks();
 
-  const { data, isSuccess } = useQuery({
+  const { data } = useQuery({
     queryKey: onThisDayQueryKey(date),
     queryFn: () => fetchOnThisDayClient(date),
     enabled: !!date,
   });
-
-  useEffect(() => {
-    if (!isSuccess) return;
-
-    data.events.slice(0, 3).forEach((e) => {
-      addBookmark({
-        type: "history",
-        title: e.body,
-        date: `${date} · ${e.y}`,
-      });
-    });
-  }, [data]);
 
   const events = data?.events ?? [];
   const dateLabel = date ? format(parseISO(date), "MMM d") : "";

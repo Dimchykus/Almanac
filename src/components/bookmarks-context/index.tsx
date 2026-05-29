@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { AlmanacBookmark } from "../types";
+
+const STORAGE_KEY = "almanac-bookmarks";
 
 interface BookmarksContextValue {
   bookmarks: AlmanacBookmark[];
@@ -17,12 +19,30 @@ const BookmarksContext = createContext<BookmarksContextValue>({
   isBookmarked: () => false,
 });
 
+function readStorage(): AlmanacBookmark[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) return JSON.parse(stored) as AlmanacBookmark[];
+  } catch {
+    // corrupted storage — start fresh
+  }
+  return [];
+}
+
 export function BookmarksProvider({ children }: { children: React.ReactNode }) {
-  const [bookmarks, setBookmarks] = useState<AlmanacBookmark[]>([]);
+  const [bookmarks, setBookmarks] = useState<AlmanacBookmark[]>(readStorage);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
+    } catch {
+      // storage quota exceeded or private-browsing restriction — ignore
+    }
+  }, [bookmarks]);
 
   function addBookmark(bookmark: AlmanacBookmark) {
     setBookmarks((prev) =>
-      prev.some((b) => b.title === bookmark.title) ? prev : [bookmark, ...prev]
+      prev.some((b) => b.title === bookmark.title) ? prev : [bookmark, ...prev],
     );
   }
 
@@ -35,7 +55,9 @@ export function BookmarksProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <BookmarksContext value={{ bookmarks, addBookmark, removeBookmark, isBookmarked }}>
+    <BookmarksContext
+      value={{ bookmarks, addBookmark, removeBookmark, isBookmarked }}
+    >
       {children}
     </BookmarksContext>
   );
