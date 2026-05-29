@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { TopBar } from "../../components/top-bar";
 import { DateHeader } from "../../components/date-header";
+import { useAboveViewport } from "@/src/hooks/use-above-viewport";
 import { ApodCard } from "../../components/apod-card";
 import { FactCard } from "../../components/fact-card";
 import { WeatherCard } from "../../components/weather-card";
@@ -16,6 +17,7 @@ import { useSyncedSources } from "@/src/hooks/use-synced-sources";
 export function BriefingPage() {
   const [bookmarksOpen, setBookmarksOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const { ref: dateHeaderRef, isAbove: dateHeaderHidden } = useAboveViewport<HTMLDivElement>(56);
   const { sources } = useSyncedSources();
 
   return (
@@ -28,9 +30,12 @@ export function BriefingPage() {
         <TopBar
           bookmarksOpen={bookmarksOpen}
           onToggleBookmarks={() => setBookmarksOpen((v) => !v)}
+          dateScrolled={dateHeaderHidden}
         />
 
-        <DateHeader onPickerOpen={() => setPickerOpen(true)} />
+        <div ref={dateHeaderRef}>
+          <DateHeader onPickerOpen={() => setPickerOpen(true)} />
+        </div>
 
         <main className="px-4 sm:px-8 py-5 sm:py-7 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5 overflow-x-hidden">
           <div>
