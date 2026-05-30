@@ -33,10 +33,6 @@ Each external API has a pair of functions in `src/lib/`:
 
 **Shared Wikipedia fetch**: `EventsCard` and `PeopleCard` both use the same `onThisDayQueryKey(date)` — TanStack deduplicates into a single network request.
 
-### Partially wired cards
-
-`FactCard` and `FeaturedCard` still consume static placeholder data from `src/components/data.ts` (`ALMANAC_DATA`) rather than live APIs. The `ALMANAC_DATA` constant is also used for the `date` field passed to `FactCard`.
-
 ### Contexts
 
 - **`DateContext`** (`src/components/DateContext.tsx`) — holds the currently selected ISO date string (`yyyy-MM-dd`). `useDate()` and `useDateNav()` are the consumer hooks. All data-fetching cards subscribe to the date and re-query when it changes. Navigation is capped: `nextDay()` is a no-op when already on today's date.
