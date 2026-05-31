@@ -3,13 +3,14 @@
 import { AlmIcon } from "../alm-icon";
 import { useBookmarks } from "../bookmarks-context";
 import { useLockScroll } from "@/src/hooks/use-lock-scroll";
+import { Button } from "@/components/ui/button";
 
 interface BookmarksPanelProps {
   onClose: () => void;
 }
 
 export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
-  const { bookmarks } = useBookmarks();
+  const { bookmarks, removeBookmark } = useBookmarks();
 
   useLockScroll();
 
@@ -50,7 +51,7 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
         {bookmarks.map((b, i) => (
           <div
             key={i}
-            className="px-6 py-[18px] border-b border-[oklch(0.240_0.018_245)] flex gap-3.5"
+            className="px-6 py-[18px] border-b border-[oklch(0.240_0.018_245)] flex gap-3.5 group"
           >
             <div className="flex-1 min-w-0">
               <p className="font-display text-[17px] leading-[1.2] text-alm-ink mb-1 m-0">
@@ -61,9 +62,15 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
               </p>
             </div>
 
-            <div className="text-alm-accent self-start pt-1">
-              <AlmIcon name="bookmark-fill" size={14} />
-            </div>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => removeBookmark(b.title)}
+              className="self-start opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 text-alm-ink-faint hover:text-alm-ink shrink-0"
+              title="Remove bookmark"
+            >
+              <AlmIcon name="x" size={14} />
+            </Button>
           </div>
         ))}
       </div>
