@@ -8,6 +8,7 @@ import {
   wikiSummaryQueryKey,
   fetchWikiSummaryClient,
 } from "@/src/lib/wikiSummary";
+import { Skeleton, CardError } from "@/src/components/ui/skeleton";
 import type { AlmanacPerson } from "../types";
 
 function PersonTile({
@@ -78,11 +79,31 @@ function PersonTile({
   );
 }
 
+function PeopleSkeleton() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[oklch(0.240_0.018_245)]">
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <div key={i} className="bg-alm-surface p-[18px] flex gap-3.5">
+          <Skeleton className="w-14 h-14 rounded-full flex-shrink-0" />
+          <div className="flex-1 flex flex-col gap-1.5">
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="h-2.5 w-24" />
+            <div className="flex flex-col gap-1 mt-1">
+              <Skeleton className="h-3 w-full" />
+              <Skeleton className="h-3 w-4/5" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function PeopleCard() {
   const date = useDate();
   const selectedYear = parseInt(date.slice(0, 4));
 
-  const { data } = useQuery({
+  const { data, isPending, isError, refetch } = useQuery({
     queryKey: onThisDayQueryKey(date),
     queryFn: () => fetchOnThisDayClient(date),
     enabled: !!date,
@@ -106,7 +127,12 @@ export function PeopleCard() {
           Wikipedia · On This Day
         </div>
       </div>
-      {all.length > 0 ? (
+
+      {isPending ? (
+        <PeopleSkeleton />
+      ) : isError ? (
+        <CardError onRetry={refetch} />
+      ) : all.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[oklch(0.240_0.018_245)]">
           {all.map(({ person, label }, i) => (
             <PersonTile
@@ -119,7 +145,7 @@ export function PeopleCard() {
         </div>
       ) : (
         <div className="px-5 py-8 text-center font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-faint">
-          Loading…
+          No records for this date
         </div>
       )}
     </article>

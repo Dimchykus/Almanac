@@ -4,6 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { useGeo } from "@/src/hooks/use-geo";
 import { useDate, useDateNav } from "@/src/contexts/date-context";
+import { Skeleton, CardError } from "@/src/components/ui/skeleton";
+
+const SHELL = "bg-alm-surface border border-[oklch(0.240_0.018_245)] rounded-lg overflow-hidden";
+const HEADER = "flex items-center justify-between px-5 py-3.5 border-b border-[oklch(0.240_0.018_245)]";
 
 function toMinutes(t: string): number {
   const [h, m] = t.split(":").map(Number);
@@ -28,27 +32,56 @@ export function SunMoonCard() {
   const { isToday } = useDateNav();
   const { lat, lon, ready } = useGeo();
 
-  const { data: sun } = useQuery({
+  const { data: sun, isPending, isError, refetch } = useQuery({
     queryKey: sunQueryKey(date, lat, lon),
     queryFn: () => fetchSunClient(date, lat, lon),
     enabled: ready && !!date,
   });
 
-  if (!sun) return null;
+  const header = (
+    <div className={HEADER}>
+      <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-alm-ink-mute flex items-center gap-2.5">
+        <span className="text-alm-accent font-semibold">04</span> Sun &amp; Moon
+      </div>
+      <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-alm-ink-faint">
+        Open-Meteo · Forecast
+      </div>
+    </div>
+  );
 
-  const marker = isToday ? calcMarker(sun.rise, sun.set) : null;
+  if (isPending) {
+    return (
+      <article className={SHELL}>
+        {header}
+        <div className="p-5 flex flex-col items-center gap-4">
+          <Skeleton className="w-full max-w-[300px] h-[80px]" />
+          <div className="grid grid-cols-2 gap-3 w-full">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="flex flex-col gap-1.5">
+                <Skeleton className="h-2.5 w-16" />
+                <Skeleton className="h-4 w-12" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  if (isError) {
+    return (
+      <article className={SHELL}>
+        {header}
+        <CardError onRetry={refetch} />
+      </article>
+    );
+  }
+
+  const marker = isToday ? calcMarker(sun!.rise, sun!.set) : null;
 
   return (
-    <article className="bg-alm-surface border border-[oklch(0.240_0.018_245)] rounded-lg overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-[oklch(0.240_0.018_245)]">
-        <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-alm-ink-mute flex items-center gap-2.5">
-          <span className="text-alm-accent font-semibold">04</span> Sun &amp;
-          Moon
-        </div>
-        <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-alm-ink-faint">
-          Open-Meteo · Forecast
-        </div>
-      </div>
+    <article className={SHELL}>
+      {header}
       <div className="p-5 flex flex-col items-center">
         {/* Sun arc */}
         <div className="alm-sun-arc relative w-full max-w-[300px] mx-auto">
@@ -82,10 +115,10 @@ export function SunMoonCard() {
         {/* Grid */}
         <div className="grid grid-cols-2 gap-2 w-full">
           {[
-            { k: "Sunrise", v: sun.rise },
-            { k: "Sunset", v: sun.set },
-            { k: "Daylight", v: sun.length },
-            { k: "Solar Noon", v: sun.noon },
+            { k: "Sunrise", v: sun!.rise },
+            { k: "Sunset", v: sun!.set },
+            { k: "Daylight", v: sun!.length },
+            { k: "Solar Noon", v: sun!.noon },
           ].map(({ k, v }) => (
             <div key={k} className="font-mono text-[11px] text-alm-ink-dim">
               <span className="block text-alm-ink-faint tracking-[0.1em] uppercase mb-0.5 text-[10px]">

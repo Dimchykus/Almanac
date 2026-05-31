@@ -3,31 +3,69 @@
 import { useQuery } from "@tanstack/react-query";
 import { apodQueryKey, fetchApodClient } from "@/src/lib/apod";
 import { useDate } from "@/src/contexts/date-context";
+import { Skeleton, CardError } from "@/src/components/ui/skeleton";
+
+const SHELL = "bg-alm-surface border border-[oklch(0.240_0.018_245)] rounded-lg overflow-hidden";
+const HEADER = "flex items-center justify-between px-5 py-3.5 border-b border-[oklch(0.240_0.018_245)]";
 
 export function ApodCard() {
   const date = useDate();
 
-  const { data: nasaApod } = useQuery({
+  const { data: nasaApod, isPending, isError, refetch } = useQuery({
     queryKey: apodQueryKey(date),
     queryFn: () => fetchApodClient(date),
     enabled: !!date,
   });
 
-  if (!nasaApod) return null;
+  if (isPending) {
+    return (
+      <article className={SHELL}>
+        <div className={HEADER}>
+          <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-alm-ink-mute flex items-center gap-2.5">
+            <span className="text-alm-accent font-semibold">01</span> Astronomy Picture of the Day
+          </div>
+          <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-alm-ink-faint">NASA · APOD</div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-[1.1fr_1fr] min-h-[220px] sm:min-h-[460px]">
+          <Skeleton className="rounded-none min-h-[220px] sm:min-h-0" />
+          <div className="p-5 sm:p-7 flex flex-col gap-4">
+            <Skeleton className="h-3 w-24" />
+            <div className="flex flex-col gap-2.5">
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-8 w-4/5" />
+            </div>
+            <div className="flex flex-col gap-2 flex-1">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <Skeleton key={i} className={`h-3.5 ${i === 4 ? "w-3/5" : "w-full"}`} />
+              ))}
+            </div>
+            <Skeleton className="h-3 w-16" />
+          </div>
+        </div>
+      </article>
+    );
+  }
 
-  const apod = {
-    title: nasaApod.title,
-    date: nasaApod.date,
-    explanation: nasaApod.explanation,
-    url: nasaApod.url,
-    media_type: nasaApod.media_type,
-  };
+  if (isError) {
+    return (
+      <article className={SHELL}>
+        <div className={HEADER}>
+          <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-alm-ink-mute flex items-center gap-2.5">
+            <span className="text-alm-accent font-semibold">01</span> Astronomy Picture of the Day
+          </div>
+          <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-alm-ink-faint">NASA · APOD</div>
+        </div>
+        <CardError onRetry={refetch} />
+      </article>
+    );
+  }
 
+  const apod = nasaApod!;
   const hasImage = apod.url && apod.media_type === "image";
 
   return (
-    <article className="bg-alm-surface border border-[oklch(0.240_0.018_245)] rounded-lg overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-[oklch(0.240_0.018_245)]">
+    <article className={SHELL}>
+      <div className={HEADER}>
         <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-alm-ink-mute flex items-center gap-2.5">
           <span className="text-alm-accent font-semibold">01</span> Astronomy
           Picture of the Day
