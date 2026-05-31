@@ -36,9 +36,32 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Docker
 
+Make sure you have a `.env` file with your keys (see [Environment variables](#environment-variables) above), then:
+
 ```bash
+# 1. Build the image
 docker build -t almanac .
+
+# 2. Run the container
 docker run -p 3000:3000 --env-file .env almanac
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+**With Docker Compose** (optional):
+
+```yaml
+# docker-compose.yml
+services:
+  almanac:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+```
+
+```bash
+docker compose up --build
 ```
 
 ### Other commands
@@ -48,7 +71,6 @@ pnpm build       # production build
 pnpm lint        # ESLint
 pnpm test:run    # Vitest (single run)
 pnpm test        # Vitest (watch)
-pnpm test:ui     # Vitest browser UI
 ```
 
 ---
