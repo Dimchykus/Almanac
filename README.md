@@ -2,6 +2,8 @@
 
 A date-driven discovery app that assembles a rich daily briefing — astronomy, weather, history, notable people — for any date you choose.
 
+**Live:** [almanac-one.vercel.app](https://almanac-one.vercel.app/)
+
 ---
 
 ## Running the project
@@ -105,6 +107,12 @@ Every data card has explicit loading and error states. While a query is in fligh
 | **06 — Births & Deaths** | Wikipedia REST API (same request as #05, deduplicated) |
 
 GeoIP (getgeoapi.com) runs client-side on page load to resolve the user's latitude/longitude. Weather and Sun cards both depend on it — their TanStack queries are gated with `enabled: !!geo` so they stay idle until coordinates are available.
+
+### Deployment: Vercel
+
+Vercel and Next.js are made by the same team, so everything just works — ISR, API routes, environment variables. I connected the repo, pushed, and it was live. No config files, no build scripts to wire up.
+
+It also made sense given how the caching is set up. The `/api/*` proxy routes use `next: { revalidate }`, and Vercel's CDN picks that up at the edge, so external API responses get cached automatically without any extra infrastructure.
 
 ### Styling: Tailwind CSS v4 + shadcn/ui
 
