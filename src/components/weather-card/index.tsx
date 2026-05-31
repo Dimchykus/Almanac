@@ -44,7 +44,7 @@ export function WeatherCard() {
         </div>
         <div className="font-display text-[48px] sm:text-[56px] leading-none tracking-[-0.02em] text-alm-ink flex items-start">
           {weather.now}
-          <sup className="text-[18px] sm:text-[20px] mt-1.5 text-alm-ink-mute">°C</sup>
+          <sup className="text-[18px] sm:text-[20px] mt-3 text-alm-ink-mute">°C</sup>
         </div>
         <p className="font-display italic text-[18px] text-alm-ink-dim mt-1 m-0">
           {weather.desc}
