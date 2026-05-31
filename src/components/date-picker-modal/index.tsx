@@ -14,7 +14,7 @@ import {
   isValid,
 } from "date-fns";
 import { AlmIcon } from "../alm-icon";
-import { useDate, useGoToDate } from "@/src/contexts/date-context";
+import { useDisplayDate, useGoToDate } from "@/src/contexts/date-context";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -30,7 +30,7 @@ interface DatePickerModalProps {
 const DOWS = ["S", "M", "T", "W", "T", "F", "S"];
 
 export function DatePickerModal({ open, onOpenChange }: DatePickerModalProps) {
-  const iso = useDate();
+  const iso = useDisplayDate();
   const goToDate = useGoToDate();
   const today = new Date().toISOString().slice(0, 10);
 

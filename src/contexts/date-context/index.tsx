@@ -1,10 +1,13 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { addDays, format, parseISO, subDays } from "date-fns";
+
+const DEBOUNCE_MS = 300;
 
 interface DateContextValue {
   date: string;
+  debouncedDate: string;
   isToday: boolean;
   prevDay: () => void;
   nextDay: () => void;
@@ -13,6 +16,7 @@ interface DateContextValue {
 
 const DateContext = createContext<DateContextValue>({
   date: "",
+  debouncedDate: "",
   isToday: true,
   prevDay: () => {},
   nextDay: () => {},
@@ -22,6 +26,12 @@ const DateContext = createContext<DateContextValue>({
 export function DateProvider({ children }: { children: React.ReactNode }) {
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const [date, setDate] = useState(today);
+  const [debouncedDate, setDebouncedDate] = useState(today);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedDate(date), DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [date]);
 
   const prevDay = () => setDate((d) => format(subDays(parseISO(d), 1), "yyyy-MM-dd"));
   const nextDay = () =>
@@ -31,13 +41,19 @@ export function DateProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <DateContext value={{ date, isToday: date === today, prevDay, nextDay, goToDate }}>
+    <DateContext value={{ date, debouncedDate, isToday: date === today, prevDay, nextDay, goToDate }}>
       {children}
     </DateContext>
   );
 }
 
+/** Debounced date — use this as query keys so rapid navigation doesn't fire redundant requests. */
 export function useDate() {
+  return useContext(DateContext).debouncedDate;
+}
+
+/** Immediate date — use this for display only (date header, picker highlight). */
+export function useDisplayDate() {
   return useContext(DateContext).date;
 }
 

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AlmIcon } from "../alm-icon";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { useGeo } from "@/src/hooks/use-geo";
-import { useDate, useDateNav } from "@/src/contexts/date-context";
+import { useDate, useDisplayDate, useDateNav } from "@/src/contexts/date-context";
 import { useSyncedSources } from "@/src/hooks/use-synced-sources";
 
 interface DateHeaderProps {
@@ -13,14 +13,15 @@ interface DateHeaderProps {
 }
 
 export function DateHeader({ onPickerOpen }: DateHeaderProps) {
-  const iso = useDate();
+  const iso = useDisplayDate();
+  const debouncedIso = useDate();
   const { prevDay, nextDay, isToday } = useDateNav();
 
   const { lat, lon, ready } = useGeo();
   const { data: sun } = useQuery({
-    queryKey: sunQueryKey(iso, lat, lon),
-    queryFn: () => fetchSunClient(iso, lat, lon),
-    enabled: ready && !!iso,
+    queryKey: sunQueryKey(debouncedIso, lat, lon),
+    queryFn: () => fetchSunClient(debouncedIso, lat, lon),
+    enabled: ready && !!debouncedIso,
   });
 
   const { syncedCount, total } = useSyncedSources();

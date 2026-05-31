@@ -89,6 +89,10 @@ Each external API has two entry points in `src/lib/`: a `fetch*Server()` functio
 
 TanStack Query provides deduplication for free — `EventsCard` and `PeopleCard` share the same `onThisDayQueryKey`, so they make exactly one Wikipedia request between them regardless of render order.
 
+Date navigation is debounced at 300 ms in `DateContext`. The displayed date updates immediately so navigation feels instant, but the debounced value — which drives all query keys — only settles after the user stops clicking. This prevents a burst of redundant in-flight requests when quickly paging through dates. All requests still go through the Next.js API proxy routes, so ISR caching is preserved.
+
+Every data card has explicit loading and error states. While a query is in flight the card renders animated skeletons that mirror the card's final layout (avoiding layout shift). If the fetch fails, the card shows an inline error prompt with a retry button that re-runs the query.
+
 ### APIs integrated
 
 | Card | Source |

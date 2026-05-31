@@ -3,7 +3,7 @@
 import { format, parseISO } from "date-fns";
 import { AlmIcon } from "../alm-icon";
 import { useBookmarks } from "../bookmarks-context";
-import { useDate } from "@/src/contexts/date-context";
+import { useDisplayDate } from "@/src/contexts/date-context";
 
 interface TopBarProps {
   bookmarksOpen: boolean;
@@ -13,7 +13,7 @@ interface TopBarProps {
 
 export function TopBar({ bookmarksOpen, onToggleBookmarks, dateScrolled = false }: TopBarProps) {
   const { bookmarks } = useBookmarks();
-  const iso = useDate();
+  const iso = useDisplayDate();
   const date = parseISO(iso);
 
   return (
