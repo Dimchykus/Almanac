@@ -16,14 +16,20 @@ import {
 import { AlmIcon } from "../alm-icon";
 import { useDate, useGoToDate } from "@/src/contexts/date-context";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface DatePickerModalProps {
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 const DOWS = ["S", "M", "T", "W", "T", "F", "S"];
 
-export function DatePickerModal({ onClose }: DatePickerModalProps) {
+export function DatePickerModal({ open, onOpenChange }: DatePickerModalProps) {
   const iso = useDate();
   const goToDate = useGoToDate();
   const today = new Date().toISOString().slice(0, 10);
@@ -61,7 +67,7 @@ export function DatePickerModal({ onClose }: DatePickerModalProps) {
     const newIso = toISO(day);
     if (newIso > today) return;
     goToDate(newIso);
-    onClose();
+    onOpenChange(false);
   }
 
   function prevMonth() {
@@ -79,17 +85,17 @@ export function DatePickerModal({ onClose }: DatePickerModalProps) {
 
   function goToday() {
     goToDate(today);
-    onClose();
+    onOpenChange(false);
   }
 
   function goYesterday() {
     goToDate(format(subDays(new Date(), 1), "yyyy-MM-dd"));
-    onClose();
+    onOpenChange(false);
   }
 
   function goOneYearAgo() {
     goToDate(format(subYears(new Date(), 1), "yyyy-MM-dd"));
-    onClose();
+    onOpenChange(false);
   }
 
   function goRandom() {
@@ -97,7 +103,7 @@ export function DatePickerModal({ onClose }: DatePickerModalProps) {
     const end = new Date().getTime();
     const rand = new Date(start + Math.random() * (end - start));
     goToDate(format(rand, "yyyy-MM-dd"));
-    onClose();
+    onOpenChange(false);
   }
 
   const isTypeInputValid = (() => {
@@ -122,7 +128,7 @@ export function DatePickerModal({ onClose }: DatePickerModalProps) {
         const newIso = format(parsed, "yyyy-MM-dd");
         if (newIso <= today) {
           goToDate(newIso);
-          onClose();
+          onOpenChange(false);
         }
       }
     } catch {
@@ -131,18 +137,14 @@ export function DatePickerModal({ onClose }: DatePickerModalProps) {
   }
 
   return (
-    <div
-      className="absolute inset-0 flex items-start justify-center pt-[130px] z-30"
-      style={{
-        background: "oklch(0.10 0.012 245 / 0.74)",
-        backdropFilter: "blur(6px)",
-      }}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <div
-        className="bg-alm-surface border border-[oklch(0.295_0.020_245)] rounded-xl p-7 w-[560px]"
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        showCloseButton={false}
+        className="bg-alm-surface border border-[oklch(0.295_0.020_245)] rounded-xl p-7 w-[500px] sm:max-w-[500px] gap-0"
         style={{ boxShadow: "0 30px 80px oklch(0 0 0 / 0.5)" }}
       >
+        <DialogTitle className="sr-only">Pick a date</DialogTitle>
+
         {/* Header */}
         <div className="flex justify-between items-center mb-5">
           <div className="font-display text-2xl text-alm-ink">
@@ -247,7 +249,7 @@ export function DatePickerModal({ onClose }: DatePickerModalProps) {
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

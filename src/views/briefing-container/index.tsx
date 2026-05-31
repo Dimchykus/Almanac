@@ -75,7 +75,7 @@ export function BriefingPage() {
       {bookmarksOpen && (
         <BookmarksPanel onClose={() => setBookmarksOpen(false)} />
       )}
-      {pickerOpen && <DatePickerModal onClose={() => setPickerOpen(false)} />}
+      <DatePickerModal open={pickerOpen} onOpenChange={setPickerOpen} />
     </div>
   );
 }
