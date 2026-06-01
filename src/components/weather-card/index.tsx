@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { weatherQueryKey, fetchWeatherClient } from "@/src/lib/weather";
 import { useGeo } from "@/src/hooks/use-geo";
 import { useDate } from "@/src/contexts/date-context";
-import { AlmIcon } from "../alm-icon";
+import { IconMapPin } from "@tabler/icons-react";
 import { Skeleton, CardError } from "@/src/components/ui/skeleton";
 
 const SHELL = "bg-alm-surface border border-[oklch(0.240_0.018_245)] rounded-lg overflow-hidden";
@@ -75,7 +75,7 @@ export function WeatherCard() {
       {header}
       <div className="p-4 sm:p-5">
         <div className="font-mono text-[10px] sm:text-[11px] tracking-[0.1em] uppercase text-alm-ink-mute mb-3 sm:mb-3.5 flex items-center gap-2">
-          <AlmIcon name="pin" size={11} />
+          <IconMapPin size={11} />
           {weather!.location} · {weather!.coord}
         </div>
         <div className="font-display text-[48px] sm:text-[56px] leading-none tracking-[-0.02em] text-alm-ink flex items-start">

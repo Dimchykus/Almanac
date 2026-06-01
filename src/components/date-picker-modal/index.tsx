@@ -13,7 +13,7 @@ import {
   parseISO,
   isValid,
 } from "date-fns";
-import { AlmIcon } from "../alm-icon";
+import { IconChevronLeft, IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { useDisplayDate, useGoToDate } from "@/src/contexts/date-context";
 import { Button } from "@/components/ui/button";
 import {
@@ -155,13 +155,13 @@ export function DatePickerModal({ open, onOpenChange }: DatePickerModalProps) {
           </div>
           <div className="flex gap-1.5">
             <Button variant="outline" size="icon-sm" onClick={prevMonth}>
-              <AlmIcon name="arrow-l" size={14} />
+              <IconChevronLeft size={14} />
             </Button>
             <Button variant="outline" size="icon-sm" onClick={jumpToTodayMonth} title="Go to today">
-              <AlmIcon name="cal" size={14} />
+              <IconCalendar size={14} />
             </Button>
             <Button variant="outline" size="icon-sm" onClick={nextMonth} disabled={isAtTodayMonth}>
-              <AlmIcon name="arrow-r" size={14} />
+              <IconChevronRight size={14} />
             </Button>
           </div>
         </div>

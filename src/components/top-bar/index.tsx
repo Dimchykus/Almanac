@@ -3,7 +3,7 @@
 import { format, parseISO } from "date-fns";
 import { toast } from "sonner";
 import { IconLink } from "@tabler/icons-react";
-import { AlmIcon } from "../alm-icon";
+import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { useBookmarks } from "../bookmarks-context";
 import { useDisplayDate } from "@/src/contexts/date-context";
 
@@ -62,7 +62,7 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks, dateScrolled = false 
         }`}
         title="Saved"
       >
-        <AlmIcon name={bookmarksOpen ? "bookmark-fill" : "bookmark"} />
+        {bookmarksOpen ? <IconBookmarkFilled size={16} /> : <IconBookmark size={16} />}
         {bookmarks.length > 0 && (
           <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-alm-accent text-[oklch(0.12_0.02_245)] font-mono text-[9px] font-bold leading-4 text-center tabular-nums">
             {bookmarks.length}
