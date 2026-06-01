@@ -4,12 +4,22 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { BriefingPage } from "@/src/views/briefing-container";
+import { isISODate } from "@/src/lib/utils";
 import { apodQueryKey, fetchApodServer } from "@/src/lib/apod";
 import { onThisDayQueryKey, fetchOnThisDayServer } from "@/src/lib/wikipedia";
 import { openAiQueryKey, fetchOpenAiServer } from "@/src/lib/open-ai";
 
-export default async function Home() {
-  const date = new Date().toISOString().slice(0, 10);
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string }>;
+}) {
+  const today = new Date().toISOString().slice(0, 10);
+  const { date: rawDate } = await searchParams;
+  const date =
+    rawDate && isISODate(rawDate) && rawDate <= today
+      ? rawDate
+      : today;
   const queryClient = new QueryClient();
 
   await Promise.all([
