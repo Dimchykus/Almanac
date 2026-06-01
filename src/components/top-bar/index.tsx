@@ -1,6 +1,8 @@
 "use client";
 
 import { format, parseISO } from "date-fns";
+import { toast } from "sonner";
+import { IconLink } from "@tabler/icons-react";
 import { AlmIcon } from "../alm-icon";
 import { useBookmarks } from "../bookmarks-context";
 import { useDisplayDate } from "@/src/contexts/date-context";
@@ -15,6 +17,11 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks, dateScrolled = false 
   const { bookmarks } = useBookmarks();
   const iso = useDisplayDate();
   const date = parseISO(iso);
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      toast("Link copied to clipboard");
+    });
+  };
 
   return (
     <header className="sticky top-0 z-40 flex items-center gap-3 sm:gap-6 px-4 sm:px-8 h-14 border-b border-[oklch(0.240_0.018_245)] bg-gradient-to-b from-[oklch(0.15_0.015_245)] to-[oklch(0.13_0.015_245)] flex-shrink-0">
@@ -24,7 +31,6 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks, dateScrolled = false 
 
       <div className="flex-1" />
 
-      {/* Scrolled date — hidden on mobile, animated on sm+ */}
       <div
         className="absolute left-1/2 -translate-x-1/2 pointer-events-none hidden sm:block transition-all duration-300"
         style={{
@@ -39,7 +45,14 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks, dateScrolled = false 
         </span>
       </div>
 
-      {/* Bookmark toggle */}
+      <button
+        onClick={handleShare}
+        className="w-8 h-8 inline-flex items-center justify-center border border-[oklch(0.295_0.020_245)] rounded-md cursor-pointer transition-colors text-alm-ink-dim bg-transparent hover:border-alm-ink-dim"
+        title="Copy link"
+      >
+        <IconLink size={16} />
+      </button>
+
       <button
         onClick={onToggleBookmarks}
         className={`relative w-8 h-8 inline-flex items-center justify-center border rounded-md cursor-pointer transition-colors ${
