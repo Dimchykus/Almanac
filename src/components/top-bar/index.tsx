@@ -32,7 +32,7 @@ export function TopBar({ bookmarksOpen, onToggleBookmarks, dateScrolled = false 
       <div className="flex-1" />
 
       <div
-        className="absolute left-1/2 -translate-x-1/2 pointer-events-none hidden sm:block transition-all duration-300"
+        className="absolute left-1/2 pointer-events-none transition-all duration-300"
         style={{
           opacity: dateScrolled ? 1 : 0,
           transform: `translateX(-50%) translateY(${dateScrolled ? "0px" : "6px"})`,
