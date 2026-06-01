@@ -55,7 +55,7 @@ Both contexts are mounted inside `app/providers.tsx` alongside `QueryClientProvi
 - Tailwind CSS v4 with custom `alm-*` OKLCH color tokens defined in `app/globals.css` (e.g. `bg-alm-bg`, `text-alm-ink`, `text-alm-ink-mute`, `text-alm-accent`).
 - Fonts: `--font-sans` = IBM Plex Sans, `--font-mono` = IBM Plex Mono, `--font-display` = Instrument Serif (set on `<html>` via CSS variables).
 - shadcn/ui components are available.
-- **Icons**: Use `AlmIcon` (`src/components/AlmIcon.tsx`), a custom inline SVG component — not `@tabler/icons-react` directly. Add new icon variants to its `switch` statement. Available names: `search`, `bookmark`, `bookmark-fill`, `settings`, `arrow-l`, `arrow-r`, `cal`, `pin`, `sun`, `wind`, `external`, `x`, `today`.
+- **Icons**: Use `@tabler/icons-react` directly (e.g. `import { IconLink } from "@tabler/icons-react"`). Do not use `AlmIcon` — it is unused and can be deleted.
 - Cards follow a numbered header pattern (`01` APOD, `02` Fact, `03` Weather, `04` Sun & Moon, `05` On This Day, `06` Births & Deaths). Continue the sequence for new cards.
 
 ### Types

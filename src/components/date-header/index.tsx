@@ -2,7 +2,7 @@
 
 import { format, getDayOfYear, getDaysInYear, parseISO } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
-import { AlmIcon } from "../alm-icon";
+import { IconChevronLeft, IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { sunQueryKey, fetchSunClient } from "@/src/lib/sun";
 import { useGeo } from "@/src/hooks/use-geo";
 import { useDate, useDisplayDate, useDateNav } from "@/src/contexts/date-context";
@@ -60,13 +60,13 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
             onClick={prevDay}
             className="w-9 h-9 inline-flex items-center justify-center bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors"
           >
-            <AlmIcon name="arrow-l" />
+            <IconChevronLeft size={16} />
           </button>
           <button
             onClick={onPickerOpen}
             className="h-9 px-3 sm:px-3.5 inline-flex items-center gap-2 bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md font-mono text-[11px] tracking-[0.1em] uppercase text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors"
           >
-            <AlmIcon name="cal" size={14} />
+            <IconCalendar size={14} />
             <span className="hidden sm:inline">Jump to date</span>
           </button>
           <button
@@ -74,7 +74,7 @@ export function DateHeader({ onPickerOpen }: DateHeaderProps) {
             disabled={isToday}
             className="w-9 h-9 inline-flex items-center justify-center bg-transparent border border-[oklch(0.295_0.020_245)] rounded-md text-alm-ink-dim cursor-pointer hover:text-alm-ink hover:border-[oklch(0.4_0.020_245)] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            <AlmIcon name="arrow-r" />
+            <IconChevronRight size={16} />
           </button>
         </div>
       </div>

@@ -93,6 +93,8 @@ TanStack Query provides deduplication for free — `EventsCard` and `PeopleCard`
 
 Date navigation is debounced at 300 ms in `DateContext`. The displayed date updates immediately so navigation feels instant, but the debounced value — which drives all query keys — only settles after the user stops clicking. This prevents a burst of redundant in-flight requests when quickly paging through dates. All requests still go through the Next.js API proxy routes, so ISR caching is preserved.
 
+The selected date is reflected in the URL as a `?date=YYYY-MM-DD` query parameter (omitted when viewing today for a clean URL). This makes any date shareable — opening a shared link initialises the server-side `prefetchQuery` calls for that date, so the page lands with data already cached and no loading flash. The URL is updated via `window.history.replaceState` (not a full navigation) so rapid prev/next clicks don't create noisy browser history entries.
+
 Every data card has explicit loading and error states. While a query is in flight the card renders animated skeletons that mirror the card's final layout (avoiding layout shift). If the fetch fails, the card shows an inline error prompt with a retry button that re-runs the query.
 
 ### APIs integrated

@@ -1,6 +1,6 @@
 "use client";
 
-import { AlmIcon } from "../alm-icon";
+import { IconX } from "@tabler/icons-react";
 import { useBookmarks } from "../bookmarks-context";
 import { useLockScroll } from "@/src/hooks/use-lock-scroll";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
             onClick={onClose}
             className="w-8 h-8 inline-flex items-center justify-center border border-[oklch(0.295_0.020_245)] bg-transparent text-alm-ink-dim rounded-md cursor-pointer"
           >
-            <AlmIcon name="x" />
+            <IconX size={16} />
           </button>
         </div>
 
@@ -69,7 +69,7 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
               className="self-start opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 text-alm-ink-faint hover:text-alm-ink shrink-0"
               title="Remove bookmark"
             >
-              <AlmIcon name="x" size={14} />
+              <IconX size={14} />
             </Button>
           </div>
         ))}

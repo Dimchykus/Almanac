@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import { AlmIcon } from "../alm-icon";
+import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { useDate } from "@/src/contexts/date-context";
 import { useBookmarks } from "../bookmarks-context";
 import { onThisDayQueryKey, fetchOnThisDayClient } from "@/src/lib/wikipedia";
@@ -98,7 +98,7 @@ export function EventsCard() {
                       : "text-alm-ink-faint hover:bg-[oklch(0.240_0.018_245)] hover:text-alm-accent"
                   }`}
                 >
-                  <AlmIcon name={saved ? "bookmark-fill" : "bookmark"} size={14} />
+                  {saved ? <IconBookmarkFilled size={14} /> : <IconBookmark size={14} />}
                 </button>
               </div>
             );

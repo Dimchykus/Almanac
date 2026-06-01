@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { addDays, format, parseISO, subDays } from "date-fns";
+import { useSearchParams } from "next/navigation";
+import { isISODate } from "@/src/lib/utils";
 
 const DEBOUNCE_MS = 300;
 
@@ -25,13 +27,33 @@ const DateContext = createContext<DateContextValue>({
 
 export function DateProvider({ children }: { children: React.ReactNode }) {
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
-  const [date, setDate] = useState(today);
-  const [debouncedDate, setDebouncedDate] = useState(today);
+  const searchParams = useSearchParams();
+
+  const initialDate = useMemo(() => {
+    const raw = searchParams.get("date");
+    return raw && isISODate(raw) && raw <= today
+      ? raw
+      : today;
+  }, [searchParams, today]);
+
+  const [date, setDate] = useState(initialDate);
+  const [debouncedDate, setDebouncedDate] = useState(initialDate);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedDate(date), DEBOUNCE_MS);
     return () => clearTimeout(timer);
   }, [date]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (debouncedDate === today) {
+      params.delete("date");
+    } else {
+      params.set("date", debouncedDate);
+    }
+    const search = params.toString();
+    window.history.replaceState(null, "", search ? `?${search}` : window.location.pathname);
+  }, [debouncedDate, today]);
 
   const prevDay = () => setDate((d) => format(subDays(parseISO(d), 1), "yyyy-MM-dd"));
   const nextDay = () =>
