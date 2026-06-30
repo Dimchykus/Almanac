@@ -30,11 +30,11 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Environment variables
 
-| Variable | Required | Where to get it |
-|---|---|---|
-| `NASA_API_KEY` | No | [api.nasa.gov](https://api.nasa.gov) — falls back to `DEMO_KEY` |
-| `GEO_API_KEY` | Yes | [getgeoapi.com](https://getgeoapi.com) |
-| `OPENAI_API_KEY` | No | [platform.openai.com](https://platform.openai.com) — used for the Fact card |
+| Variable         | Required | Where to get it                                                             |
+| ---------------- | -------- | --------------------------------------------------------------------------- |
+| `NASA_API_KEY`   | No       | [api.nasa.gov](https://api.nasa.gov) — falls back to `DEMO_KEY`             |
+| `GEO_API_KEY`    | Yes      | [getgeoapi.com](https://getgeoapi.com)                                      |
+| `OPENAI_API_KEY` | No       | [platform.openai.com](https://platform.openai.com) — used for the Fact card |
 
 ### Docker
 
@@ -99,13 +99,13 @@ Every data card has explicit loading and error states. While a query is in fligh
 
 ### APIs integrated
 
-| Card | Source |
-|---|---|
-| **01 — APOD** | NASA Astronomy Picture of the Day |
-| **02 — Fact** | OpenAI (generates a curated fact about the date) |
-| **03 — Weather** | Open-Meteo ERA5 archive + Forecast endpoints |
-| **04 — Sun & Moon** | Open-Meteo Forecast (sunrise/sunset) |
-| **05 — On This Day** | Wikipedia REST API |
+| Card                     | Source                                                 |
+| ------------------------ | ------------------------------------------------------ |
+| **01 — APOD**            | NASA Astronomy Picture of the Day                      |
+| **02 — Fact**            | OpenAI (generates a curated fact about the date)       |
+| **03 — Weather**         | Open-Meteo ERA5 archive + Forecast endpoints           |
+| **04 — Sun & Moon**      | Open-Meteo Forecast (sunrise/sunset)                   |
+| **05 — On This Day**     | Wikipedia REST API                                     |
 | **06 — Births & Deaths** | Wikipedia REST API (same request as #05, deduplicated) |
 
 GeoIP (getgeoapi.com) runs client-side on page load to resolve the user's latitude/longitude. Weather and Sun cards both depend on it — their TanStack queries are gated with `enabled: !!geo` so they stay idle until coordinates are available.
@@ -124,7 +124,7 @@ shadcn/ui provides a set of accessible, unstyled-by-default primitives (modals, 
 
 ## Known tradeoffs
 
-**Fact card uses OpenAI.** The assignment lists Numbers API as an option for date facts. I used OpenAI instead because it can produce richer, more contextually relevant facts. The tradeoff is that it requires an API key and has latency — Numbers API would be faster and key-free. The card degrades gracefully if `OPENAI_API_KEY` is not set.
+**Fact card uses OpenAI.** The assignment lists Numbers API as an option for date facts, but it wasn't working reliably during development, so I replaced it with OpenAI. OpenAI also produces richer, more contextually relevant facts.
 
 ### Bookmarks persistence
 
@@ -134,6 +134,6 @@ Bookmarks are stored in `localStorage` and survive page reloads. The `BookmarksP
 
 ## What I'd do with more time
 
-- **Wire the Featured card** to the Wikipedia "featured article" endpoint so it reflects the actual selected date
-- **Date picker UX** — the current modal works but a calendar popover would feel more natural
-- **Better mobile layout** — the card grid is responsive but the card ordering on small screens is driven by DOM order, which isn't always the right reading priority
+- **Add rate limiting to the API routes.** Right now the `/api/*` routes are open, so someone could call them from another app and use up my API keys. I'd want to add some kind of per-IP rate limit and maybe check the request is actually coming from this site.
+- **Write an E2E test for bookmarks.** Bookmarks have the most going on (adding, removing, saving to localStorage so they stick after a reload), so it's probably the easiest thing to break. I'd add a Playwright test that clicks through the whole flow.
+- **Add error logging.** If one of the external APIs goes down in production I don't really have a good way to know. Setting up something like Sentry on the API routes would help me catch those.
