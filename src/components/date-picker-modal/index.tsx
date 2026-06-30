@@ -15,12 +15,12 @@ import {
 } from "date-fns";
 import { IconChevronLeft, IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { useDisplayDate, useGoToDate } from "@/src/contexts/date-context";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/src/components/ui/dialog";
 
 interface DatePickerModalProps {
   open: boolean;

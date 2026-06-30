@@ -3,7 +3,7 @@
 import { IconX } from "@tabler/icons-react";
 import { useBookmarks } from "../bookmarks-context";
 import { useLockScroll } from "@/src/hooks/use-lock-scroll";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 
 interface BookmarksPanelProps {
   onClose: () => void;
