@@ -3,7 +3,7 @@
 import { IconX } from "@tabler/icons-react";
 import { useBookmarks } from "../bookmarks-context";
 import { useLockScroll } from "@/src/hooks/use-lock-scroll";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 
 interface BookmarksPanelProps {
   onClose: () => void;
@@ -48,9 +48,9 @@ export function BookmarksPanel({ onClose }: BookmarksPanelProps) {
 
       {/* Bookmark list */}
       <div className="flex-1 overflow-y-auto">
-        {bookmarks.map((b, i) => (
+        {bookmarks.map((b) => (
           <div
-            key={i}
+            key={b.title}
             className="px-6 py-[18px] border-b border-[oklch(0.240_0.018_245)] flex gap-3.5 group"
           >
             <div className="flex-1 min-w-0">

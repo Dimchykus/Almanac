@@ -73,11 +73,11 @@ export function EventsCard() {
         <CardError onRetry={refetch} />
       ) : (
         <div>
-          {events.map((e, i) => {
+          {events.map((e) => {
             const saved = isBookmarked(e.body);
             return (
               <div
-                key={i}
+                key={e.body}
                 className={ROW}
                 style={{ gridTemplateColumns: "64px 1fr auto" }}
               >
